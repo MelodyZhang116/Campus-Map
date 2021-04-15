@@ -71,8 +71,9 @@ public class BallContainer implements Iterable<Ball> {
      * @spec.requires b != null.
      */
     public boolean add(Ball b) {
+        return add(b);
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
     /**
@@ -89,8 +90,9 @@ public class BallContainer implements Iterable<Ball> {
      * @spec.requires b != null.
      */
     public boolean remove(Ball b) {
+        return remove(b)
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
     /**
