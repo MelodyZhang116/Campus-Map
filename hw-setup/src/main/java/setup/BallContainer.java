@@ -71,7 +71,7 @@ public class BallContainer implements Iterable<Ball> {
      * @spec.requires b != null.
      */
     public boolean add(Ball b) {
-        return add(b);
+        return contents.add(b);
         // Your code goes here.  Remove the exception after you're done.
         //throw new RuntimeException("Method not implemented");
     }
@@ -90,7 +90,7 @@ public class BallContainer implements Iterable<Ball> {
      * @spec.requires b != null.
      */
     public boolean remove(Ball b) {
-        return remove(b)
+        return contents.remove(b);
         // Your code goes here.  Remove the exception after you're done.
         //throw new RuntimeException("Method not implemented");
     }
@@ -102,8 +102,14 @@ public class BallContainer implements Iterable<Ball> {
      * @return the volume of the contents of the container.
      */
     public double getVolume() {
+        double volume = 0;
+        for(Ball n:contents){
+            volume = volume + n.getVolume();
+
+        }
+        return volume;
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
     /**
@@ -112,16 +118,18 @@ public class BallContainer implements Iterable<Ball> {
      * @return the number of Balls in this container.
      */
     public int size() {
+        return contents.size();
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
     /**
      * Empties the container, i.e. removes all its contents.
      */
     public void clear() {
+        contents.clear();
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
     /**
@@ -134,8 +142,9 @@ public class BallContainer implements Iterable<Ball> {
      * @spec.requires b != null.
      */
     public boolean contains(Ball b) {
+        return contents.contains(b);
         // Your code goes here.  Remove the exception after you're done.
-        throw new RuntimeException("Method not implemented");
+        //throw new RuntimeException("Method not implemented");
     }
 
 }

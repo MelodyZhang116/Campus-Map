@@ -15,7 +15,7 @@ package setup;
  * This is a simple object that has a volume.
  */
 // You may not make Ball implement the Comparable interface.
-public class Ball {
+public class Ball{
 
     /**
      * The volume of the Ball.
@@ -40,5 +40,8 @@ public class Ball {
 
         return this.volume;
     }
+
+
+
 
 }
