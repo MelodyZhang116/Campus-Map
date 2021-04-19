@@ -3,14 +3,63 @@
 ###########################################################################
 
 1. Multiplication Pseudocode
+r = p * q:
+    set r = 0
+    {Inv: r = p_0*q_0 + p_0*q_1 + ... + p_0*q_(i-1) +
+              p_1*q_0 + p_1*q_1 + ... + p_1*q_(i-1) +
+              ...+
+              p_(j-1)*q_0 + p_(j-1)*q_1 + ... + p_(j-1)*q_(i-1)
+              where p_k is the kth term in p, and q_m is the mth term in q.}
+    foreach term, t_p, in p:
+        initialize a new polynomial newpoly= 0
+        {Inv: newpoly = t_p*q0 + t_p*q1 + ... + t_p*q_(i-1)}
+        foreach term, t_q, in q:
+            multiply t_p and t_q, add the result into newpoly
+        set r with the sum of newpoly and r(adding two polynomials)
+
+
 
 
 
 2. Division Pseudocode
+q = n / p :
+    set q = 0 and r = n
+    {Inv : n = p * q + r}
+    while r is not 0 and the highest degree of r is greater or equal to the highest degree of p:
+        newTerm = the leading term of r / leading term of p
+        set q equals the sum of q and newTerm(newTerm is only one term which cannot be added to a polynomial, but here I treat newTerm as a polynomial with one term)
+        set r equals r - ( newTerm* p)
 
 
 
 3. Division Example: (x3+x-1) / (x+1) = x2-x+2
+q = 0
+n = x^3 + x - 1
+r = x^3 + x - 1
+p = x + 1
+while loop:
+    Iteration 1: q = 0, n = x^3 + x - 1, r = x^3 + x - 1, p = x + 1
+    [r is not 0 and the highest degree of r is greater or equal to the highest degree of p]
+    r = x^3 + x - 1, not equal to 0, and the highest degree of r is 3, which is larger than the highest degree of p, which is 1------enter loop
+        [newTerm = the leading term of r / leading term of p] newTerm = x^3 / x = x^2
+        [set q equals the sum of q and newTerm] q + newTerm = x^2, so q = x^2
+        [set r equals r - ( newTerm* p)] newTerm *p = x^3 + x^2, r- newTerm * p = -x^2 + x -1, so r = -x^2 + x -1
+    Iteration 2: q = x^2, n = x^3 + x - 1, r = -x^2 + x -1, p = x + 1
+    [r is not 0 and the highest degree of r is greater or equal to the highest degree of p]
+    r = -x^2 + x -1, not equal to 0, and the highest degree of r is 2, which is larger than the highest degree of p ,which is 1 -------enter the loop
+        [newTerm = the leading term of r / leading term of p] newTerm =-x^2 / x = -x
+        [set q equals the sum of q and newTerm]q + newTerm = x^2-x, so q = x^2-x
+        [set r equals r - ( newTerm* p)] newTerm *p = -x^2 - x, r- newTerm * p = 2x - 1, so r = 2x -1
+    Iteration 3: q = x^2 -x, n = x^3 + x - 1, r = 2x -1, p = x + 1
+    [r is not 0 and the highest degree of r is greater or equal to the highest degree of p]
+    r = 2x-1, not equal to 0, and the highest degree of r, which is 1, is equal to the highest degree of p, which is 1-----enter loop
+        [newTerm = the leading term of r / leading term of p] newTerm =2x / x = 2
+        [set q equals the sum of q and newTerm]q + newTerm = x^2 - x + 2, so q = x^2-x+2
+        [set r equals r - ( newTerm* p)] newTerm *p = 2x+2, r- newTerm * p = -3, so r = -3
+    Iteration 4: q = x^2 -x +2, n = x^3 + x - 1, r = -3, p = x + 1
+    [r is not 0 and the highest degree of r is greater or equal to the highest degree of p]
+    r = -3, not equal to 0, but the highest degree of r, which is 0, is smaller than the highest degree of p ,which is 1------exit loop
+we are done! q = x^2 - x + 2
 
 
 
