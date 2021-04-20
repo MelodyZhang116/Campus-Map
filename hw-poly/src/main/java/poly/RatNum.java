@@ -205,6 +205,7 @@ public final class RatNum extends Number implements Comparable<RatNum> {
         } else {
             return (int) (((long) numer - (denom / 2)) / denom);
         }
+
     }
 
     /**
