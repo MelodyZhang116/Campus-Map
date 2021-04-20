@@ -11,6 +11,8 @@
 
 package poly;
 
+import java.lang.*;
+
 /**
  * <b>RatTerm</b> is an immutable representation of a term in a single-variable polynomial
  * expression. The term has the form C*x^E where C is a rational number and E is an integer.
@@ -74,7 +76,13 @@ public final class RatTerm {
      */
     public RatTerm(RatNum c, int e) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.constructor is not yet implemented");
+        this.coeff = c;
+        if(c.equals(RatNum.ZERO)){
+            this.expt = 0;
+        }else{
+            this.expt = e;
+        }
+        checkRep();
     }
 
     /**
@@ -84,7 +92,8 @@ public final class RatTerm {
      */
     public RatNum getCoeff() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.getCoeff() is not yet implemented");
+        return this.coeff;
+
     }
 
     /**
@@ -94,7 +103,7 @@ public final class RatTerm {
      */
     public int getExpt() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.getExpt() is not yet implemented");
+        return this.expt;
     }
 
     /**
@@ -104,7 +113,9 @@ public final class RatTerm {
      */
     public boolean isNaN() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.isNaN() is not yet implemented");
+        return this.equals(NaN);
+        }
+
     }
 
     /**
@@ -114,7 +125,7 @@ public final class RatTerm {
      */
     public boolean isZero() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.isZero() is not yet implemented");
+        return this.equals(ZERO);
     }
 
     /**
@@ -126,8 +137,14 @@ public final class RatTerm {
      */
     public double eval(double d) {
         // TODO: Fill in this method, then remove the RuntimeException
-        // Hint: You may find java.lang.Math's pow() method useful.
-        throw new RuntimeException("RatTerm.eval() is not yet implemented");
+        if(this.isNaN()) {
+            return Double.NaN;
+        }else {
+            // Hint: You may find java.lang.Math's pow() method useful.
+            return Math.pow(d, this.expt) * this.coeff.doubleValue();
+        }
+
+
     }
 
     /**
@@ -137,7 +154,10 @@ public final class RatTerm {
      */
     public RatTerm negate() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.negate() is not yet implemented");
+        if(this.isNaN()) {
+            return NaN;
+        }else{
+            return new RatTerm(-this.coeff,this.expt);
     }
 
     /**
@@ -150,8 +170,13 @@ public final class RatTerm {
      * @spec.requires arg != null
      */
     public RatTerm add(RatTerm arg) {
-        // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.add() is not yet implemented");
+            // TODO: Fill in this method, then remove the RuntimeException
+
+        if(this.isNaN()||arg.isNaN()){
+            return NaN;
+        }else if(this.expt != arg.expt && !this.isZero() && !this.isNaN() && !arg.){
+
+        }
     }
 
     /**
