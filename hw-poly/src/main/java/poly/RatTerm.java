@@ -178,6 +178,7 @@ public final class RatTerm {
             throw new IllegalArgumentException();
         }else{
             return new RatTerm(this.coeff.add(arg.getCoeff()),this.expt);
+
         }
 
     }
