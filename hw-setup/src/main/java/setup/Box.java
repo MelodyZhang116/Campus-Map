@@ -68,7 +68,7 @@ public class Box implements Iterable<Ball> {
      */
     public boolean add(Ball b) {
         // Your code goes here.  Remove the exception after you're done.
-        if (ballContainer.getVolume() < maxVolume){
+        if (ballContainer.getVolume() +b.getVolume()<= maxVolume && !ballContainer.contains(b)){
             return ballContainer.add(b);
         }
         return false;

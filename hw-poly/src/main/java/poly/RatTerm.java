@@ -194,7 +194,14 @@ public final class RatTerm {
      */
     public RatTerm sub(RatTerm arg) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.sub() is not yet implemented");
+        if(this.isNaN()||arg.isNaN()){
+            return NaN;
+        }else if(this.expt != arg.expt && !this.isZero() && !this.isNaN() && !arg.isZero()&& !arg.isNaN()){
+            throw new IllegalArgumentException();
+        }else{
+            return new RatTerm(this.coeff.sub(arg.getCoeff()),this.expt);
+
+        }
     }
 
     /**
@@ -206,7 +213,11 @@ public final class RatTerm {
      */
     public RatTerm mul(RatTerm arg) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.mul() is not yet implemented");
+        if(arg.isNaN()||this.isNaN()){
+            return NaN;
+        }else{
+            return new RatTerm(this.coeff.mul(arg.getCoeff()),this.expt + arg.getExpt());
+        }
     }
 
     /**
@@ -219,7 +230,11 @@ public final class RatTerm {
      */
     public RatTerm div(RatTerm arg) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.div() is not yet implemented");
+        if(arg.isZero()||arg.isNaN()||this.isNaN()){
+            return NaN;
+        }else{
+            return new RatTerm(this.coeff.div(arg.getCoeff()),this.expt - arg.getExpt());
+        }
     }
 
     /**
@@ -233,7 +248,10 @@ public final class RatTerm {
      */
     public RatTerm differentiate() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.differentiate() is not yet implemented");
+        if(this.isNaN()){
+
+        }
+        return new RatTerm(this.coeff.mul(new RatNum(this.expt)),this.expt-1);
     }
 
     /**
@@ -248,7 +266,10 @@ public final class RatTerm {
      */
     public RatTerm antiDifferentiate() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatTerm.antiDifferentiate() unimplemented!");
+        if(this.isNaN()){
+
+        }
+        return new RatTerm(this.coeff.div(new RatNum(this.expt+1)),this.expt+1);
     }
 
     /**
