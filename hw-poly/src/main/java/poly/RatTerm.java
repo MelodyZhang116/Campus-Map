@@ -157,7 +157,7 @@ public final class RatTerm {
         if(this.isNaN()) {
             return NaN;
         }else{
-            return new RatTerm(-this.coeff,this.expt);
+            return new RatTerm(this.coeff.negate(),this.expt);
     }
 
     /**
@@ -174,9 +174,12 @@ public final class RatTerm {
 
         if(this.isNaN()||arg.isNaN()){
             return NaN;
-        }else if(this.expt != arg.expt && !this.isZero() && !this.isNaN() && !arg.){
-
+        }else if(this.expt != arg.expt && !this.isZero() && !this.isNaN() && !arg.isZero()&& !arg.isNaN()){
+            throw new IllegalArgumentException();
+        }else{
+            return new RatTerm(this.coeff.add(arg.getCoeff()),this.expt);
         }
+
     }
 
     /**
