@@ -133,7 +133,8 @@ checkReps at the end of constructor ensures that every object can fulfill the re
 ###########################################################################
 
 1. Calls to checkRep in RatTerm
-
+I only include checkRep at the end of constructor, because RatTerm class is immutable, and all
+RatTerm that are constructed cannot be changed and cannot violate rep inv.
 
 
 2. Weakened Rep Invariant
