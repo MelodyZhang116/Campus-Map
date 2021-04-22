@@ -171,7 +171,7 @@ public final class RatPolyStack implements Iterable<RatPoly> {
         // TODO: Fill in this method, then remove the RuntimeException
         RatPoly first = polys.pop();
         RatPoly second = polys.pop();
-        RatPoly sub = first.sub(second);
+        RatPoly sub = second.sub(first);
         polys.push(sub);
     }
 
@@ -202,7 +202,7 @@ public final class RatPolyStack implements Iterable<RatPoly> {
         // TODO: Fill in this method, then remove the RuntimeException
         RatPoly first = polys.pop();
         RatPoly second = polys.pop();
-        RatPoly div = first.div(second);
+        RatPoly div = second.div(first);
         polys.push(div);
     }
 

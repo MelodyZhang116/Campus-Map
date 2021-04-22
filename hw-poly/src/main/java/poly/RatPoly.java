@@ -256,16 +256,24 @@ public final class RatPoly {
 //            lst.set(i, new RatTerm(searched.getCoeff().add(newTerm.getCoeff()),searched.getExpt()));
 //
 //        }
-        int i = 0;
-        while(i<lst.size()&&lst.get(i).getExpt() > newTerm.getExpt()){
-            i = i+1;
+
+        if(!newTerm.isZero()) {
+            int i = 0;
+            while (i < lst.size() && lst.get(i).getExpt() > newTerm.getExpt()) {
+                i = i + 1;
+            }
+            if (i == lst.size()) {
+                lst.add(newTerm);
+            } else if (lst.get(i).getExpt() == newTerm.getExpt()) {
+                lst.set(i, new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()), newTerm.getExpt()));
+            } else {
+                lst.add(i, newTerm);
+            }
         }
-        if(i == lst.size()){
-            lst.add(newTerm);
-        }else if(lst.get(i).getExpt()==newTerm.getExpt()){
-            lst.set(i,new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()),newTerm.getExpt()));
-        }else{
-            lst.add(i,newTerm);
+        for(int i = 0 ; i < lst.size(); i++){
+            if(lst.get(i).isZero()){
+                lst.remove(i);
+            }
         }
     }
 
