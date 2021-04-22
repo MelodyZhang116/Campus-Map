@@ -167,10 +167,16 @@ special cases. We will not mix NaN with terms that are not NaN, so expt of NaN r
 ###########################################################################
 
 1. Calls to checkRep in RatPoly
-
+Only at the end of every constructor. Because RatPoly is an immutable class, once it is
+constructed, it cannot be changed. So we only have to check rep after constructor. We do not
+include checkRep at the beginning of constructor, because we have to first assign fields and
+then we can check whether these fields are satisfied.
 
 
 2. Alternate Representation
+disadvantage: We have to deal with two lists, which is not intuitive and not
+convenient, probably not efficient(depending on different methods).
+Advantage:We do not need RatTerm object, so we can just used list and RatNum, which is convenient.
 
 
 

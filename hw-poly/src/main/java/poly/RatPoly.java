@@ -124,6 +124,7 @@ public final class RatPoly {
      */
     private RatPoly(List<RatTerm> rt) {
         terms = rt;
+
         // The spec tells us that we don't need to make a copy of 'rt'
         checkRep();
     }
