@@ -276,17 +276,18 @@ public final class RatPoly {
      */
     public RatPoly negate() {
         // TODO: Fill in this method, then remove the RuntimeException
-        if(this.isNaN()){
+        if (this.isNaN()) {
             return NaN;
-        }else{
+        } else {
             RatPoly result = new RatPoly();
-            for(RatTerm var:terms){
+            for (RatTerm var : terms) {
                 result.terms.add(var.negate());
             }
             return result;
         }
-
     }
+
+
 
     /**
      * Addition operation.
