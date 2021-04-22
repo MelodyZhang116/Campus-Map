@@ -127,17 +127,30 @@ RatTerm that are constructed cannot be changed and cannot violate rep inv.
 
 
 2. Weakened Rep Invariant
-public String toString()will have different behavior. if(e == 1) {output.append(c.toString() + "*x");},
-so if 0*x^1 is passed, it will produce 0*x, not 0.
-public boolean equals(Object obj) the code should change. (this.expt == rt.expt) && this.coeff.equals(rt.coeff)
+public String toString()will have different behavior. if(e == 1)
+{output.append(c.toString() + "*x");}, so if 0*x^1 is passed, it will produce 0*x, not 0.
+public boolean equals(Object obj) the code should change. (this.expt == rt.expt) &&
+this.coeff.equals(rt.coeff)
 if we compare 0*x^1 and 0^x^2, they are evaluated as unequal, but in fact they are both 0.
 
 
 3. Alternate Rep Invariant
+public RatTerm(RatNum c, int e) its code should change. It should add another condition,
+if(coeff.isNaN()){expt = 0;}
+disadvantage: More conditions are included, so it is less efficient.
 
+public static RatTerm valueOf(String termStr) its code should change.
+if(termStr.equals("NaN")) {return NaN;} should be if(termStr.startsWith("NaN") or something
+like that.
+disadvantage: .equals might be more efficient that .startsWith.
+
+private void checkRep() its code should change, because new rep inv is included. Check if coeff
+is NaN, whether the expt is 0.
+disadvantage: More conditions included, not efficient.
 
 
 4. Preferred Invariants
+I think coeff.equals(RatNum.ZERO)->expt = 0 would be better.
 
 
 
