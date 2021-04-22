@@ -11,6 +11,7 @@
 
 package poly;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -244,7 +245,7 @@ public final class RatPoly {
             }
             if(i ==0){
                 lst.add(0,newTerm);
-            }else if(0<i<lst.size()){
+            }else if(0<i && i<lst.size()){
                 lst.add(i,newTerm);
             }else{
                 lst.add(newTerm);
@@ -288,13 +289,12 @@ public final class RatPoly {
         if(this.isNaN()||p.isNaN()){
             return NaN;
         }
-        List<RatTerm> copy = new ArrayList<RatTerm>(terms.size());
-        for (RatTerm ratterm:terms){
-            copy.add((RatTerm)ratterm.clone());
+        ArrayList copied = new ArrayList(terms);
+        for(RatTerm var:p.terms){
+            sortedInsert(copied,var);
         }
-        for(RatTerm var:p){
-
-        }
+        RatPoly result = new RatPoly(copied);
+        return result;
     }
 
     /**
@@ -307,7 +307,7 @@ public final class RatPoly {
      */
     public RatPoly sub(RatPoly p) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.sub() is not yet implemented");
+        return this.add(p.negate());
     }
 
     /**
@@ -320,7 +320,12 @@ public final class RatPoly {
      */
     public RatPoly mul(RatPoly p) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.mul() is not yet implemented");
+        List result = new ArrayList();
+        for(RatTerm term1:terms){
+            for(RatTerm term2:p.terms){
+                sortedInsert(result,term1.mul(term2));
+            }
+        }
     }
 
     /**
@@ -358,7 +363,19 @@ public final class RatPoly {
      */
     public RatPoly div(RatPoly p) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.div() is not yet implemented");
+        if(p.equals(ZERO)||this.isNaN()||p.isNaN()){
+            return NaN;
+        }
+        RatPoly q = new RatPoly();
+        RatPoly r = new RatPoly(new ArrayList(terms));
+        while(!r.equals(ZERO) && r.degree() >= p.degree()){
+            RatTerm newTerm = r.terms.get(0).div(p.terms.get(0));
+            RatPoly single = new RatPoly(newTerm);
+            q = q.add(single);
+            r = r.sub(single.mul(p));
+        }
+        return q;
+
     }
 
     /**
@@ -370,7 +387,14 @@ public final class RatPoly {
      */
     public RatPoly differentiate() {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.differentiate() is not yet implemented");
+        if(this.isNaN()){
+            return NaN;
+        }
+        RatPoly result = new RatPoly();
+        for(RatTerm term:terms){
+            sortedInsert(result.terms,term.differentiate());
+        }
+        return result;
     }
 
     /**
@@ -386,7 +410,15 @@ public final class RatPoly {
      */
     public RatPoly antiDifferentiate(RatNum integrationConstant) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.antiDifferentiate() unimplemented!");
+        if(this.isNaN()||integrationConstant.isNaN()){
+            return NaN;
+        }
+        RatPoly result = new RatPoly();
+        for(RatTerm term:terms){
+            sortedInsert(result.terms,term.antiDifferentiate());
+        }
+        sortedInsert(result.terms,new RatTerm(integrationConstant,0));
+        return result;
     }
 
     /**
@@ -404,7 +436,21 @@ public final class RatPoly {
      */
     public double integrate(double lowerBound, double upperBound) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.integrate() is not yet implemented");
+        if(this.isNaN()||lowerBound==Double.NaN||upperBound==Double.NaN){
+            return Double.NaN;
+        }
+        RatPoly result = this.antiDifferentiate(RatNum.ZERO);
+        double upper = 0.0;
+        double lower = 0.0;
+        //inv: upper = the value of first n RatTerm in result that is evaluated at upperBound
+        for(RatTerm term:result.terms){
+            upper = upper+ term.eval(upperBound);
+        }
+        //inv: lower = the value of first n RatTerm in result that is evaluated at lowerBound
+        for(RatTerm term:result.terms){
+            lower = lower + term.eval(lowerBound);
+        }
+        return upper - lower;
     }
 
     /**
