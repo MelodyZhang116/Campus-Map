@@ -111,7 +111,7 @@ public final class RatPoly {
             terms = new ArrayList<RatTerm>();
         }else{
             terms = new ArrayList<RatTerm>();
-            terms.add(new RatTerm(c,e));
+            terms.add(new RatTerm(new RatNum(c),e));
         }
         checkRep();
     }
@@ -236,27 +236,35 @@ public final class RatPoly {
     private static void sortedInsert(List<RatTerm> lst, RatTerm newTerm) {
         // TODO: Fill in this method, then remove the RuntimeException
         // Note: Some of the provided code in this class relies on this method working as-specified.
-        RatPoly copy = new RatPoly(lst);
-        RatTerm searched = copy.getTerm(newTerm.getExpt());
-        if(searched.isZero()){
-            int i = 0;
-            while(i < lst.size() && lst.get(i).getExpt()>newTerm.getExpt()){
-                i = i+1;
-            }
-            if(i ==0){
-                lst.add(0,newTerm);
-            }else if(0<i && i<lst.size()){
-                lst.add(i,newTerm);
-            }else{
-                lst.add(newTerm);
-            }
+//        RatPoly copy = new RatPoly(lst);
+//        RatTerm searched = copy.getTerm(newTerm.getExpt());
+//        int i = 0;
+//        if(searched.isZero()){
+//            while(i < lst.size() && lst.get(i).getExpt()>newTerm.getExpt()){
+//                i = i+1;
+//            }
+//            if(i<lst.size()){
+//                lst.add(i,newTerm);
+//            }else{
+//                lst.add(newTerm);
+//            }
+//        }else{
+//            while(!lst.get(i).equals(searched)){
+//                i = i+1;
+//            }
+//            lst.set(i, new RatTerm(searched.getCoeff().add(newTerm.getCoeff()),searched.getExpt()));
+//
+//        }
+        int i = 0;
+        while(i<lst.size()&&lst.get(i).getExpt() > newTerm.getExpt()){
+            i = i+1;
+        }
+        if(i == lst.size()){
+            lst.add(newTerm);
+        }else if(lst.get(i).getExpt()==newTerm.getExpt()){
+            lst.set(i,new RatTerm(newTerm.getCoeff().add(lst.get(i).getCoeff()),newTerm.getExpt()));
         }else{
-            int i = 0;
-            while(!lst.get(i).equals(searched)){
-                i = i+1;
-            }
-            lst.set(i, new RatTerm(searched.getCoeff().add(newTerm.getCoeff()),searched.getExpt());
-
+            lst.add(i,newTerm);
         }
     }
 
@@ -270,10 +278,13 @@ public final class RatPoly {
         if(this.isNaN()){
             return NaN;
         }else{
+            RatPoly result = new RatPoly();
             for(RatTerm var:terms){
-                var = var.negate();
+                result.terms.add(var.negate());
             }
+            return result;
         }
+
     }
 
     /**
@@ -289,7 +300,7 @@ public final class RatPoly {
         if(this.isNaN()||p.isNaN()){
             return NaN;
         }
-        ArrayList copied = new ArrayList(terms);
+        List<RatTerm> copied = new ArrayList<RatTerm>(terms);
         for(RatTerm var:p.terms){
             sortedInsert(copied,var);
         }
@@ -320,12 +331,17 @@ public final class RatPoly {
      */
     public RatPoly mul(RatPoly p) {
         // TODO: Fill in this method, then remove the RuntimeException
-        List result = new ArrayList();
+        if(this.isNaN()||p.isNaN()){
+            return NaN;
+        }
+        List<RatTerm> result = new ArrayList<RatTerm>();
         for(RatTerm term1:terms){
             for(RatTerm term2:p.terms){
                 sortedInsert(result,term1.mul(term2));
             }
         }
+        RatPoly finalResult = new RatPoly(result);
+        return finalResult;
     }
 
     /**
@@ -363,11 +379,19 @@ public final class RatPoly {
      */
     public RatPoly div(RatPoly p) {
         // TODO: Fill in this method, then remove the RuntimeException
-        if(p.equals(ZERO)||this.isNaN()||p.isNaN()){
+        if(p.equals(ZERO)||this.isNaN()||p.isNaN()) {
             return NaN;
         }
+//        q = n / p :
+//        set q = 0 and r = n
+//        {Inv : n = p * q + r}
+//        while r is not 0 and the highest degree of r is greater or equal to the highest degree of p:
+//        newTerm = the first term of r / first term of p
+//        make a new polynomial called single with only one term--newTerm
+//        set q equals the sum of q and single
+//        set r equals r - ( single* p)
         RatPoly q = new RatPoly();
-        RatPoly r = new RatPoly(new ArrayList(terms));
+        RatPoly r = new RatPoly(new ArrayList<RatTerm>(terms));
         while(!r.equals(ZERO) && r.degree() >= p.degree()){
             RatTerm newTerm = r.terms.get(0).div(p.terms.get(0));
             RatPoly single = new RatPoly(newTerm);
@@ -436,7 +460,7 @@ public final class RatPoly {
      */
     public double integrate(double lowerBound, double upperBound) {
         // TODO: Fill in this method, then remove the RuntimeException
-        if(this.isNaN()||lowerBound==Double.NaN||upperBound==Double.NaN){
+        if(this.isNaN()||Double.isNaN(lowerBound)||Double.isNaN(upperBound)){
             return Double.NaN;
         }
         RatPoly result = this.antiDifferentiate(RatNum.ZERO);
@@ -462,7 +486,14 @@ public final class RatPoly {
      */
     public double eval(double d) {
         // TODO: Fill in this method, then remove the RuntimeException
-        throw new RuntimeException("RatPoly.eval() is not yet implemented");
+        if(this.isNaN()){
+            return Double.NaN;
+        }
+        double result = 0.0;
+        for(RatTerm term:terms){
+            result = result+term.eval(d);
+        }
+        return result;
     }
 
     /**
