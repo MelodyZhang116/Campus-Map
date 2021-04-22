@@ -73,26 +73,21 @@ we are done! q = x^2 - x + 2
 ###########################################################################
 
 1. Weakened Rep Invariant
-public RatNum(int n, int d) will be different because there will be common factors between
-denom and numer.
-e.g.if n = 6 and d = 8 are passed, it used to be 3/4, but now it is 6/8
-Disadvantage: decrease efficiency. e.g. before it changes,
-the only number that represents 0.75 is 3/4, but after it changes, there are infinitely
-many numbers that can represent
-0.75, e.g. 3/4, 6/8, 9/12...
+public RatNum(int n, int d) will change. In particular,int g = gcd(n, d);n = n / g;d = d / g;
+can be deleted.
+advantage:less code in constructor, so it will be more efficient.
 
-public boolean equals(Object obj) need to be changed. For example, make two copies of
-this and obj respectively,
-int g = gcd(n, d);
-n = n / g;
-d = d / g;
-use above three lines of code to make the copies into reduced form at the start of method.
-disadvantage: we make two copies by constructing new object with the same n and d,
-which is not efficient.
+private void checkRep()will change, because the rep inv is changed. So the if(denom > 0){..}can be
+deleted.
+advantage: there are less things we need to check, so more efficient.
+
+public boolean equals(Object obj) need to be changed. We should first reduce two objects to reduced form,
+and then compare.
+disadvantage: we have to create two object that are in reduced form, which is not efficient.
 
 public String toString() should be changed. Since we are required to make sure that the output
-is in reduced form, but the input may not be in reduced form, so we have to make copies of this
-and reduce the common factor of denom and numer using gcd method, and convert it into string.
+is in reduced form, so we have to first reduce the common factor of denom and numer
+using gcd method, and convert it into string.
 disadvantage: we have to do more things than before, which is not efficient and not convenient.
 
 
@@ -127,11 +122,25 @@ RatTerm that are constructed cannot be changed and cannot violate rep inv.
 
 
 2. Weakened Rep Invariant
-public String toString()will have different behavior. if(e == 1)
-{output.append(c.toString() + "*x");}, so if 0*x^1 is passed, it will produce 0*x, not 0.
-public boolean equals(Object obj) the code should change. (this.expt == rt.expt) &&
-this.coeff.equals(rt.coeff)
-if we compare 0*x^1 and 0^x^2, they are evaluated as unequal, but in fact they are both 0.
+public RatTerm(RatNum c, int e) could change. It does not need to check c.equals(RatNum.ZERO),
+and make expt=0.
+advantage: more efficient. More quickly to construct a new object. Less conditions to check, which
+make code clarity clearer.
+
+public String toString()will change. We have to make the RatTerm with 0 coeff also have 0 expt at the beginning
+of the mthod.
+disadvantage: We have to check whether it is ZERO at the beginning, which is not efficient.
+
+public boolean equals(Object obj) the code should change. We should first check if they are both ZERO,
+then they should be treated as equal terms.
+disadvantage: more checking and more conditions, less efficient.
+
+private void checkRep() could be changed, because there are less to check. So we can delete
+assert (!coeff.equals(RatNum.ZERO) || expt == 0) : "coeff is zero while expt == " + expt;
+advantage: we have less conditions here, so it is more efficient.
+
+
+
 
 
 3. Alternate Rep Invariant
@@ -139,18 +148,17 @@ public RatTerm(RatNum c, int e) its code should change. It should add another co
 if(coeff.isNaN()){expt = 0;}
 disadvantage: More conditions are included, so it is less efficient.
 
-public static RatTerm valueOf(String termStr) its code should change.
-if(termStr.equals("NaN")) {return NaN;} should be if(termStr.startsWith("NaN") or something
-like that.
-disadvantage: .equals might be more efficient that .startsWith.
-
 private void checkRep() its code should change, because new rep inv is included. Check if coeff
 is NaN, whether the expt is 0.
 disadvantage: More conditions included, not efficient.
 
 
 4. Preferred Invariants
-I think coeff.equals(RatNum.ZERO)->expt = 0 would be better.
+I think coeff.equals(RatNum.ZERO)->expt = 0 would be better. If we lose the checking ZERO part,
+four methods have to change, and two of them have to make expt = 0 again. So it would convenient
+to just set expt=0 at the constructor. And it is more intuitive. For NaN checking, it is easier.
+At the beginning of almost all the methods, we will check NaN first, and treat NaN condition as
+special cases. We will not mix NaN with terms that are not NaN, so expt of NaN really do not matter.
 
 
 
