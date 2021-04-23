@@ -75,7 +75,6 @@ public final class RatTerm {
      * t.expt = 0, otherwise t.expt = e
      */
     public RatTerm(RatNum c, int e) {
-        // TODO: Fill in this method, then remove the RuntimeException
         this.coeff = c;
         if(c.equals(RatNum.ZERO)){
             this.expt = 0;
@@ -91,7 +90,6 @@ public final class RatTerm {
      * @return the coefficient of this RatTerm
      */
     public RatNum getCoeff() {
-        // TODO: Fill in this method, then remove the RuntimeException
         return this.coeff;
 
     }
@@ -102,7 +100,6 @@ public final class RatTerm {
      * @return the exponent of this RatTerm
      */
     public int getExpt() {
-        // TODO: Fill in this method, then remove the RuntimeException
         return this.expt;
     }
 
@@ -112,7 +109,6 @@ public final class RatTerm {
      * @return true if and only if this has NaN as a coefficient
      */
     public boolean isNaN() {
-        // TODO: Fill in this method, then remove the RuntimeException
         return this.coeff.equals(RatNum.NaN);
 
     }
@@ -123,7 +119,6 @@ public final class RatTerm {
      * @return true if and only if this has zero as a coefficient
      */
     public boolean isZero() {
-        // TODO: Fill in this method, then remove the RuntimeException
         return this.coeff.equals(RatNum.ZERO);
     }
 
@@ -135,7 +130,6 @@ public final class RatTerm {
      * is 12. if (this.isNaN() == true), return Double.NaN
      */
     public double eval(double d) {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(this.isNaN()) {
             return Double.NaN;
         }else {
@@ -152,7 +146,6 @@ public final class RatTerm {
      * @return a RatTerm equals to (-this). If this is NaN, then returns NaN.
      */
     public RatTerm negate() {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(this.isNaN()) {
             return NaN;
         }else {
@@ -170,7 +163,6 @@ public final class RatTerm {
      * @spec.requires arg != null
      */
     public RatTerm add(RatTerm arg) {
-            // TODO: Fill in this method, then remove the RuntimeException
 
         if(this.isNaN()||arg.isNaN()){
             return NaN;
@@ -196,7 +188,6 @@ public final class RatTerm {
      * @spec.requires arg != null
      */
     public RatTerm sub(RatTerm arg) {
-        // TODO: Fill in this method, then remove the RuntimeException
         return this.add(arg.negate());
     }
 
@@ -208,7 +199,6 @@ public final class RatTerm {
      * @spec.requires arg != null
      */
     public RatTerm mul(RatTerm arg) {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(arg.isNaN()||this.isNaN()){
             return NaN;
         }else{
@@ -225,7 +215,6 @@ public final class RatTerm {
      * @spec.requires arg != null
      */
     public RatTerm div(RatTerm arg) {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(arg.isZero()||arg.isNaN()||this.isNaN()){
             return NaN;
         }else{
@@ -243,7 +232,6 @@ public final class RatTerm {
      * RatPoly, contains a rep. invariant stating that b is never less than 0.)
      */
     public RatTerm differentiate() {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(this.isNaN()){
             return NaN;
         }else if(this.expt == 0){
@@ -263,7 +251,6 @@ public final class RatTerm {
      * function, RatPoly, contains a rep. invariant stating that b is never less than 0.)
      */
     public RatTerm antiDifferentiate() {
-        // TODO: Fill in this method, then remove the RuntimeException
         if(this.isNaN()){
             return NaN;
         }
