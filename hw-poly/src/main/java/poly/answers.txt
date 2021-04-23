@@ -179,7 +179,7 @@ convenient, probably not efficient(depending on different methods).
 Advantage:We do not need RatTerm object, so we can just used list and RatNum, which is convenient.
 I think the original one is better, because even though we have to have additional object(RatTerm),
 RatPoly uses many methods in RatTerm,which is more convenient when we build RatPoly.
-And it is convenient, intuitive and logical to build a polynomial from its terms.
-
+And it is convenient, intuitive and logical to not only build a polynomial from its terms,
+ but also use polynomial as clients.
 
 
