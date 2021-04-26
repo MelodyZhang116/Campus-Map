@@ -8,10 +8,12 @@
     ### IntQueue1
 
     Abstraction Function:
+    AF = a queue with entries where the front of the list corresponds to the front of the entries
 
 
 
     Representation Invariant:
+    Each item in entries should not be null.
 
 
 
@@ -19,16 +21,22 @@
     ### IntQueue2
 
     Abstraction Function:
+    AF(this) =
+                entries[front..front+size-1]  if front+size<entries.length
+                entries[front..]+entries[0..size-(entries.length-front)-1] o.w.
 
 
 
     Representation Invariant:
+    size<=entries.length
 
 
 
 
 2. Group the snapshots of IntQueue2's internal state into groups that have the same abstract state.
-
+c = f
+d = a = g
+b = h
 
 
 
@@ -36,27 +44,29 @@
 could possibly expose the representation, given the information available. Explain any assumptions you made.
 
     a. `public int solveEquations(int x, int y, int z)`
-
+No, because the return type(int) is immutable, we cannot change its value after it is constructed.
 
 
     b. `public String[] decode(boolean slowly)`
-
+If it's returning one of fields and the returned field is not final, then yes, because String[] is mutable.
 
 
     c. `private Date myBirthday()`
-
+No, because the method is private, the clients cannot call this method.
 
 
     d. `public String toString()`
-
+No, because String is immutable and usually the return string in toString method is not fields.
 
 
     e. `public Iterator<Integer> elements()`
+If it's returning one of fields and the returned field is not final, then yes, because Iterator<Integer> is mutable.
+
 
 
 
     f. `public Deck(List<Card> cards)`
-
+No, it's not returning anything.
 
 
 
@@ -67,6 +77,7 @@ Briefly explain why you included the operations you did and why you feel they ar
 interface to a graph. If your design includes multiple classes or interfaces, explain why you
 included each one; if not, explain whether you considered additional classes and why you decided
 not to include them.
+
 
 
 
