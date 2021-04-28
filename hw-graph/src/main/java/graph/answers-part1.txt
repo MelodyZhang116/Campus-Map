@@ -8,15 +8,10 @@
     ### IntQueue1
 
     Abstraction Function:
-    AF = a queue with entries where the front of the list corresponds to the front of the entries
-
-
+    AF = a integer queue with entries where the front of the list corresponds to the front of the entries
 
     Representation Invariant:
     Each item in entries should not be null.
-
-
-
 
     ### IntQueue2
 
@@ -25,19 +20,14 @@
                 entries[front..front+size-1]  if front+size<entries.length
                 entries[front..]+entries[0..size-(entries.length-front)-1] o.w.
 
-
-
     Representation Invariant:
-    size<=entries.length
-
-
+    0<=size<=entries.length && 0<=front<entries.length && each element in entries != null
 
 
 2. Group the snapshots of IntQueue2's internal state into groups that have the same abstract state.
 c = f
 d = a = g
 b = h
-
 
 
 3. For each signature below, state and justify in 1-2 sentences (per part) whether the method or constructor
@@ -51,6 +41,8 @@ No, because the return type(int) is immutable, we cannot change its value after 
 If it's returning one of fields and the returned field is not final, then yes, because String[] is mutable.
 
 
+
+
     c. `private Date myBirthday()`
 No, because the method is private, the clients cannot call this method.
 
@@ -60,13 +52,13 @@ No, because String is immutable and usually the return string in toString method
 
 
     e. `public Iterator<Integer> elements()`
-If it's returning one of fields and the returned field is not final, then yes, because Iterator<Integer> is mutable.
+If the returned Iterator changes values of mutable fields, then yes.
 
 
 
 
     f. `public Deck(List<Card> cards)`
-No, it's not returning anything.
+No, it's not returning anything. It is just a constructor.
 
 
 
@@ -77,7 +69,10 @@ Briefly explain why you included the operations you did and why you feel they ar
 interface to a graph. If your design includes multiple classes or interfaces, explain why you
 included each one; if not, explain whether you considered additional classes and why you decided
 not to include them.
-
+For people who design a map, they must need operations that can add/remove a location (node) and
+a path (edge). They also want users to know whether a place is contained in the map or not, and
+what places are in the map. If users are in one of the places, where they can go and how they go.
+I did not add multiple classes because I plan to store node and edge in terms of lists.
 
 
 
