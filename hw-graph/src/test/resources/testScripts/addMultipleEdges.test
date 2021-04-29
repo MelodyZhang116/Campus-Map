@@ -1,0 +1,33 @@
+# test that multiple edges can be added to the graph and they will not affect to each other
+
+# Create a graph
+CreateGraph graph1
+
+# Add a pair of nodes
+AddNode graph1 n1
+AddNode graph1 n2
+
+# Add an edge
+AddEdge graph1 n1 n2 e1
+
+# Print the nodes in the graph and the outgoing edges from n1
+ListNodes graph1
+ListChildren graph1 n1
+
+# Add a pair of nodes
+AddNode graph1 n3
+AddNode graph1 n4
+
+# Add another edge
+AddEdge graph1 n3 n4 e2
+
+# Print the nodes in the graph and the outgoing edges from n3
+ListNodes graph1
+ListChildren graph1 n3
+
+# Add a third edge
+AddEdge graph1 n1 n3 e3
+
+# Print the nodes in the graph and the outgoing edges from n1
+ListNodes graph1
+ListChildren graph1 n1
