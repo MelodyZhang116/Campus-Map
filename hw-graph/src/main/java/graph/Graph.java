@@ -3,7 +3,7 @@ package graph;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/**<b>Graph</b> represents an immutable graph.
  * This class represents a directed labeled graph. It is a collection of nodes and edges.
  * Each edge connects two nodes and it is directed. e.g.edge e (A,B) indicates en edge from A
  * to B. Then B is the child node of A, and A is the parent node of B. A path refers to a sequence
