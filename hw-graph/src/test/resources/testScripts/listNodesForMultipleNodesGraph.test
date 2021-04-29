@@ -1,0 +1,13 @@
+# test whether multiple nodes can be listed correctly.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Add a node
+AddNode graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
