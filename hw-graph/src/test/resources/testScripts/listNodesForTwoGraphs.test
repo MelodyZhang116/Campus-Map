@@ -1,0 +1,29 @@
+# test that nodes (from two graphs) can be listed correctly. test whether the nodes in
+# one graph listed can have effect on other graph.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node to graph1
+AddNode graph1 n1
+
+# Add a node to graph1
+AddNode graph1 n2
+
+# List the nodes in the graph1
+ListNodes graph1
+
+# Create another graph
+CreateGraph graph2
+
+# Add a node to the second graph
+AddNode graph2 n3
+
+# Add a node to the second graph
+AddNode graph2 n4
+
+# List the nodes in the second graph
+ListNodes graph2
+
+# List the nodes in the first graph again to make sure it is still correct
+ListNodes graph1

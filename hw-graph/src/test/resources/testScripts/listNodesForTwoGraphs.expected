@@ -1,0 +1,29 @@
+# test that nodes (from two graphs) can be listed correctly. test whether the nodes in
+# one graph listed can have effect on other graph.
+
+# Create a graph
+created graph graph1
+
+# Add a node to graph1
+added node n1 to graph1
+
+# Add a node to graph1
+added node n2 to graph1
+
+# List the nodes in the graph1
+graph1 contains: n1 n2
+
+# Create another graph
+created graph graph2
+
+# Add a node to the second graph
+added node n3 to graph2
+
+# Add a node to the second graph
+added node n4 to graph2
+
+# List the nodes in the second graph
+graph2 contains: n3 n4
+
+# List the nodes in the first graph again to make sure it is still correct
+graph1 contains: n1 n2
