@@ -1,0 +1,5 @@
+# test whether the children of a node(no children) can be listed correctly.
+
+CreateGraph A
+AddNode A n1
+ListChildren A n1

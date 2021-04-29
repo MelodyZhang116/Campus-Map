@@ -1,0 +1,5 @@
+# test whether the children of a node(no children) can be listed correctly.
+
+created graph A
+added node n1 to A
+the children of n1 in A are:
