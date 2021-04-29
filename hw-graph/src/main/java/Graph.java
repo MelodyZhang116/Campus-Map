@@ -26,7 +26,8 @@ public class Graph {
      * @param parent node that the edge starts from
      * @param child node that the edge ends with
      * @param label the name of the edge
-     * @throws IllegalArgumentException if parent or child is not in the graph
+     * @throws IllegalArgumentException if parent or child is not in the graph or the
+     * edge is alreadu in the graph
      * @spec.modifies this
      * @spec.effects insert edge from parent to child to this
      */
@@ -42,12 +43,35 @@ public class Graph {
     public void removeNode(String node){}
 
     /**
+     * remove the edge with name label, from node parent to node child.
+     * @param parent remove the edge starts from parent
+     * @param child remove the edge end with child
+     * @param label remoce the edge named label
+     * @throws IllegalArgumentException if !containsNode(parent) or !containsNode(child)
+     * or !containsEdge(parent,child,edge)
+     * @spec.modifies this
+     * @spec.effects remove the edge from this
+     */
+    public void removeEdge(String parent,String child,String label){}
+
+    /**
+     * check whether the edge with name label, from parent to child, is contained
+     * in this. Return <code>true</code> if edge is contained in the graph,
+     * <code>false</code> otherwise.
+     * @param parent the edge starts from node parent
+     * @param child the edge ends with node child
+     * @param label the edge with name label
+     * @return True if edge is contained in this graph, False otherwise
+     */
+    public void containsEdge(String parent,String child,String label){}
+
+    /**
      * check whether node is contained in this. Return <code>true</code> if node
      * is contained in the graph, <code>false</code> otherwise.
      * @param node to be checked
      * @return True if node is contained in this graph, False otherwise
      */
-    public boolean contains(String node){return true;}
+    public boolean containsNode(String node){return true;}
 
     /**
      * return a string consisting of names of nodes
