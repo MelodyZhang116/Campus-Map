@@ -1,0 +1,22 @@
+# test that add node to the graph will not create incorrect behavior to other graph.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Create another graph
+CreateGraph graph2
+
+# Add a node to the second graph
+AddNode graph2 n2
+
+# Print the nodes in the second graph
+ListNodes graph2
+
+# Print the nodes in the first graph again to make sure it is still correct
+ListNodes graph1

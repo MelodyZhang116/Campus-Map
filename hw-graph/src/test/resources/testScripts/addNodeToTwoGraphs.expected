@@ -1,0 +1,22 @@
+# test that add node to the graph will not create incorrect behavior to other graph.
+
+# Create a graph
+created graph graph1
+
+# Add a node
+added node n1 to graph1
+
+# Print the nodes in the graph
+graph1 contains: n1
+
+# Create another graph
+created graph graph2
+
+# Add a node to the second graph
+added node n2 to graph2
+
+# Print the nodes in the second graph
+graph2 contains: n2
+
+# Print the nodes in the first graph again to make sure it is still correct
+graph1 contains: n1
