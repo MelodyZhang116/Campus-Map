@@ -83,5 +83,16 @@ I did not add multiple classes because I plan to store node and edge in terms of
 What was your testing strategy for this assignment? How do your script tests and JUnit tests
 differ from each other (if they do), and why?
 
+Basically for each operation(add,remove,list), I categorize into several groups:
+empty one, one (node/edge/child...) in one graph, multiple (nodes/edges/children) in one
+graph, (nodes/edges/children/..) in two graphs. Letting multiple nodes/edges/children
+in one graph makes sure that they will not affect each other, and letting nodes/edge/children..
+in two graphs make sure that two graphs will not affect each other. Some of them should
+consider self-cycled edge(e.g.addEdge)
+The main difference of script test and junit is that junit includes all "throws
+IllegalArgumentException" cases, and testing methods (e.g.removeNode..)that cannot be tested only
+using commands of script test.
+
+
 
 

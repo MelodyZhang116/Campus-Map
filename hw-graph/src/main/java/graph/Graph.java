@@ -1,3 +1,8 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class represents a directed labeled graph. It is a collection of nodes and edges.
  * Each edge connects two nodes and it is directed. e.g.edge e (A,B) indicates en edge from A
@@ -56,16 +61,6 @@ public class Graph {
      */
     public void removeEdge(String parent,String child,String label){}
 
-    /**
-     * check whether the edge with name label, from parent to child, is contained
-     * in this. Return <code>true</code> if edge is contained in the graph,
-     * <code>false</code> otherwise.
-     * @param parent the edge starts from node parent
-     * @param child the edge ends with node child
-     * @param label the edge with name label
-     * @return True if edge is contained in this graph, False otherwise
-     */
-    private void containsEdge(String parent,String child,String label){}
 
     /**
      * check whether node is contained in this. Return <code>true</code> if node
@@ -102,7 +97,7 @@ public class Graph {
      * e.g.If there is a path from B (starting node) to C(terminal node), that is from B
      * to A to B to C, then it should return "(B,A),(A,B),(B,C)"
      */
-    public String listPath(String parent,String child){return "";}
+    public List<String> listPath(String parent, String child){throw new IllegalArgumentException();}
 
 
 
