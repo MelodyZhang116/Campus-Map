@@ -1,0 +1,16 @@
+# test that a node can be added to a graph that is not empty
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node
+AddNode graph1 n1
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Add a node
+AddNode graph1 n2
+
+# Print the nodes in the graph
+ListNodes graph1
