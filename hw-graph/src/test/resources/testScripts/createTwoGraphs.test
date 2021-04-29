@@ -1,0 +1,16 @@
+# test that a graph that is created can have no influence on the graghs that exist.
+
+# Create a graph
+CreateGraph graph1
+
+# Print the nodes in the graph
+ListNodes graph1
+
+# Create another graph
+CreateGraph graph2
+
+# Print the nodes in the second graph
+ListNodes graph2
+
+# Print the nodes in the first graph to make sure it is not affected
+ListNodes graph1
