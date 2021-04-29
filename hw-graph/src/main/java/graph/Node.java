@@ -10,4 +10,10 @@ public final class Node {
      * @param str take str as name of location
      */
     public Node(String str){}
+
+    /**
+     * return the name of the node
+     * @return name of the node
+     */
+    public String getName(){throw new IllegalArgumentException();}
 }
