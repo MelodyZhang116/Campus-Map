@@ -72,8 +72,8 @@ not to include them.
 For people who design a map, they must need operations that can add/remove a location (node) and
 a path (edge). They also want users to know whether a place is contained in the map or not, and
 what places are in the map. If users are in one of the places, where they can go and how they go.
-I did not add multiple classes because I plan to store node and edge in terms of lists.
-
+I made two extra classes with Node and Edge, because it is more logical to construct node and edge first.
+They should be object in their own right.
 
 
 
@@ -88,7 +88,7 @@ empty one, one (node/edge/child...) in one graph, multiple (nodes/edges/children
 graph, (nodes/edges/children/..) in two graphs. Letting multiple nodes/edges/children
 in one graph makes sure that they will not affect each other, and letting nodes/edge/children..
 in two graphs make sure that two graphs will not affect each other. Some of them should
-consider self-cycled edge(e.g.addEdge)
+consider self-cycled edge(e.g.addEdge). I also include tests for Node and Edge classes.
 The main difference of script test and junit is that junit includes all "throws
 IllegalArgumentException" cases, and testing methods (e.g.removeNode..)that cannot be tested only
 using commands of script test.
