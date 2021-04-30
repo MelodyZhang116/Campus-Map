@@ -68,7 +68,7 @@ public class Graph {
      * @param node to be checked
      * @return True if node is contained in this graph, False otherwise
      */
-    public boolean containsNode(String node){return true;}
+    public boolean containsNode(String node){throw new IllegalArgumentException();}
 
     /**
      * return a string consisting of names of nodes
@@ -77,7 +77,7 @@ public class Graph {
      * should appear in alphabetical order. There is a single space between the colon and the
      * first node name, but no space if there are no nodes.
      */
-    public String listNodes(){return "";}
+    public String listNodes(){throw new IllegalArgumentException();}
 
     /**
      * return a string consisting of names of children nodes of the given parent.
@@ -86,7 +86,7 @@ public class Graph {
      * specified in listNode method.
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
-    public String listChildren(String parent){return "";}
+    public String listChildren(String parent){throw new IllegalArgumentException();}
 
     /**
      * return a string consisting of path starting from parent node to child node.
