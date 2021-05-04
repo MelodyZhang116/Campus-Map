@@ -15,6 +15,12 @@ A few examples of possible Graph representations:
 1. In two or three sentences, explain an advantage and a disadvantage of each of the
 representations listed above (for example, in terms of runtime complexity, space
 complexity, or ease of implementation).
+A: ad: It is easy to create.
+disad: It is hard to call method because it only store edges. //??????????????????????
+B ad: It takes less space.
+disad: It is difficult to implement comparing to others.
+C: ad: it is easy to implement and matrix is more visually easy.
+disad: It takes much space to store a matrix.
 
 
 
@@ -22,6 +28,7 @@ complexity, or ease of implementation).
 2. In two to three sentences, describe the representation you chose and explain why you
 chose it. If you chose to use a different representation than one of the three we described
 above, be sure to list its advantages and disadvantages, too.
+I plan to use adjacency list, because it takes less space,and it is also visually easy and intuitive.
 
 
 

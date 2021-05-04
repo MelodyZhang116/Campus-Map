@@ -1,7 +1,9 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**<b>Graph</b> represents an immutable graph.
  * This class represents a directed labeled graph. It is a collection of nodes and edges.
@@ -11,13 +13,31 @@ import java.util.List;
  * have the same edge label.
  */
 public class Graph {
+    //rep invariant: for each term in map, there is no null.
+    //AF(this) = a graph with nodes in key elements of this.graph and with edges in mapped values of this.graph
+    private Map<Node,List<Edge>> graph;
 
+    /**
+     * throw exception if rep invariant is violated.
+     */
+    private void checkRep(){
+        assert(!graph.containsKey(null));
+        assert (!graph.containsValue(null));
+        for(List<Edge> list:graph.values()){
+            for(Edge ed:list){
+                assert (ed!=null);
+            }
+        }
+    }
 
     /**
      * constructor that construct a new Graph
      * @spec.effects constructs an empty queue
      */
-    public Graph(){ }
+    public Graph(){
+        this.graph = new HashMap<Node,List<Edge>>();
+        checkRep();
+    }
 
     /**
      * Add a node to the graph.

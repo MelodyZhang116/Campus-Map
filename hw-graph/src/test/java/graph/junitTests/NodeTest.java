@@ -1,5 +1,4 @@
 package graph.junitTests;
-import graph.Graph;
 import graph.Node;
 import org.junit.Test;
 

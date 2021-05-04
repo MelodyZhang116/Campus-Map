@@ -5,11 +5,25 @@ package graph;
  * location and store that location as Node object.
  */
 public final class Node {
+    // Rep invariant: name != null
+    //AF(this) = a node with name this.name
+    private final String name;
+
     /**
-     * construct a new Node with name str
-     * @param str take str as name of location
+     * throw exception if rep invariant is violated.
      */
-    public Node(String str){}
+    private void checkRep(){
+        assert(name != null);
+    }
+
+    /**
+     * construct a new Node with name
+     * @param name name of location
+     */
+    public Node(String name){
+        this.name = name;
+        checkRep();
+    }
 
     /**
      * return the name of the node
