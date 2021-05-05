@@ -1,9 +1,6 @@
 package graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**<b>Graph</b> represents an immutable graph.
  * This class represents a directed labeled graph. It is a collection of nodes and edges.
@@ -46,7 +43,12 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects add node to this
      */
-    public void insertNode(String node){}
+    public void insertNode(String node){
+        if(this.containsNode(node)){
+            throw new IllegalArgumentException();
+        }
+        graph.put(new Node(node),new ArrayList<Edge>());
+    }
 
     /**
      * Add an edge from parent to child, named label, to the graph
@@ -58,7 +60,13 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects insert edge from parent to child to this
      */
-    public void insertEdge(String parent,String child,String label){}
+    public void insertEdge(String parent,String child,String label){
+        Edge ed = new Edge(parent,child,label);
+        if(!this.containsNode(parent)||!this.containsNode(child)||graph.get(ed.getParent()).contains(ed)){
+            throw new IllegalArgumentException();
+        }
+        graph.get(ed.getParent()).add(ed);
+    }
 
     /**
      * remove node from the graph, and remove all edges from the node or to the node
@@ -67,7 +75,19 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects remove the node from this
      */
-    public void removeNode(String node){}
+    public void removeNode(String node){
+        if(!this.containsNode(node)){
+            throw new IllegalArgumentException();
+        }
+        graph.remove(new Node(node));
+        for(List<Edge> arr:graph.values()){
+            for(Edge ed:arr){
+                if(ed.getChild().equals(new Node(node))){
+                    arr.remove(ed);
+                }
+            }
+        }
+    }
 
     /**
      * remove the edge with name label, from node parent to node child.
@@ -79,7 +99,13 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects remove the edge from this
      */
-    public void removeEdge(String parent,String child,String label){}
+    public void removeEdge(String parent,String child,String label){
+        Edge ed = new Edge(parent, child, label);
+        if(!this.containsNode(parent) || !this.containsNode(child) ||!graph.get(new Node(parent)).contains(ed)){
+            throw new IllegalArgumentException();
+        }
+        graph.get(new Node(parent)).remove(ed);
+    }
 
 
     /**
@@ -88,16 +114,31 @@ public class Graph {
      * @param node to be checked
      * @return True if node is contained in this graph, False otherwise
      */
-    public boolean containsNode(String node){throw new IllegalArgumentException();}
+    public boolean containsNode(String node){
+        return graph.containsKey(new Node(node));
+    }
 
     /**
      * return a string consisting of names of nodes
      * @return a string consisting of names of nodes. Names are listed on the same line, by
      * a space-separated list of the node data contained in each node of the graph. The names
-     * should appear in alphabetical order. There is a single space between the colon and the
-     * first node name, but no space if there are no nodes.
+     * should appear in alphabetical order.
      */
-    public String listNodes(){throw new IllegalArgumentException();}
+    public String listNodes(){
+        Set<String> sortedNodes = new TreeSet<String>();
+        for(Node node: graph.keySet()){
+            sortedNodes.add(node.getName());
+        }
+
+        String result = "";
+        Iterator<String> itr = sortedNodes.iterator();
+        while(itr.hasNext()){
+            result = result + itr.next()+" ";
+        }
+        return result;
+
+
+    }
 
     /**
      * return a string consisting of names of children nodes of the given parent.
@@ -106,19 +147,22 @@ public class Graph {
      * specified in listNode method.
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
-    public String listChildren(String parent){throw new IllegalArgumentException();}
+    public String listChildren(String parent){
+        if(!this.containsNode(parent)){
+            throw new IllegalArgumentException();
+        }
+        Set<String> children = new TreeSet<>();
+        for(Edge ed: graph.get(new Node(parent))){
+            children.add(ed.getChild().getName());
+        }
+        String result = "";
+        Iterator<String> itr = children.iterator();
+        while(itr.hasNext()){
+            result = result + itr.next()+" ";
+        }
+        return result;
 
-    /**
-     * return a string consisting of path starting from parent node to child node.
-     * @param parent the path from parent
-     * @param child the path to child
-     * @throws IllegalArgumentException if parent or child not exist
-     * @return a string that consisting of path starting from parent node to child node.
-     * e.g.If there is a path from B (starting node) to C(terminal node), that is from B
-     * to A to B to C, then it should return "(B,A),(A,B),(B,C)"
-     */
-    public List<String> listPath(String parent, String child){throw new IllegalArgumentException();}
-
+    }
 
 
 }

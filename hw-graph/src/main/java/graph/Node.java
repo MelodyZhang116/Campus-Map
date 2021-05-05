@@ -29,5 +29,7 @@ public final class Node {
      * return the name of the node
      * @return name of the node
      */
-    public String getName(){throw new IllegalArgumentException();}
+    public String getName(){
+        return name;
+    }
 }

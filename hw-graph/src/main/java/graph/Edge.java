@@ -37,17 +37,23 @@ public final class Edge {
      * return the name of the edge
      * @return the name of given edge
      */
-    public String getName(){throw new IllegalArgumentException();}
+    public String getName(){
+        return label;
+    }
 
     /**
-     * return the parent node's name of the edge
-     * @return the name of parent node of the edge
+     * return the parent node the edge
+     * @return the parent node of the edge
      */
-    public String getParent(){throw new IllegalArgumentException();}
+    public Node getParent(){
+        return parent;
+    }
 
     /**
-     * return the child node's name of the edge
-     * @return the name of the child node of the edge
+     * return the child node of the edge
+     * @return the child node of the edge
      */
-    public String getChild(){throw new IllegalArgumentException();}
+    public Node getChild(){
+        return child;
+    }
 }
