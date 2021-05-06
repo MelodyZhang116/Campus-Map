@@ -25,7 +25,7 @@ AddEdge graph1 n3 n4 e2
 ListNodes graph1
 ListChildren graph1 n3
 
-# Add a third edge
+# Add another edge
 AddEdge graph1 n1 n3 e3
 
 # Print the nodes in the graph and the outgoing edges from n1

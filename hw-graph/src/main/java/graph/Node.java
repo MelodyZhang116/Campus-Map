@@ -33,5 +33,19 @@ public final class Node {
         return name;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof Node)){
+            return false;
+        }
+        Node n = (Node) o;
+        return this.name.equals((n).name);
+    }
+
+    @Override
+    public int hashCode(){
+        return name.length();
+    }
+
 
 }

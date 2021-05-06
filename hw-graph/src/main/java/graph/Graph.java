@@ -62,7 +62,7 @@ public class Graph {
      */
     public void insertEdge(String parent,String child,String label){
         Edge ed = new Edge(parent,child,label);
-        if(!this.containsNode(parent)||!this.containsNode(child)||graph.get(ed.getParent()).contains(ed)){
+        if(!graph.containsKey(new Node(parent))||!graph.containsKey(new Node(child))||graph.get(ed.getParent()).contains(ed)){
             throw new IllegalArgumentException();
         }
         graph.get(ed.getParent()).add(ed);
@@ -81,11 +81,7 @@ public class Graph {
         }
         graph.remove(new Node(node));
         for(List<Edge> arr:graph.values()){
-            for(Edge ed:arr){
-                if(ed.getChild().equals(new Node(node))){
-                    arr.remove(ed);
-                }
-            }
+            arr.removeIf(ed -> ed.getChild().equals(new Node(node)));
         }
     }
 
@@ -165,6 +161,60 @@ public class Graph {
             result = result + " "+itr.next();
         }
         return result;
+
+    }
+
+
+
+    /**
+     * <b>Node</b> represent an <b>immutable</b> location. It takes a name of
+     * location and store that location as Node object.
+     */
+    public static class Node {
+        // Rep invariant: name != null
+        //AF(this) = a node with name this.name
+
+        // the name of the node
+        final String name;
+
+        /**
+         * throw exception if rep invariant is violated.
+         */
+        private void checkRep(){
+            assert(name != null);
+        }
+
+        /**
+         * construct a new Node with name
+         * @param name name of location
+         */
+        public Node(String name){
+            this.name = name;
+            checkRep();
+        }
+
+        /**
+         * return the name of the node
+         * @return name of the node
+         */
+        public String getName(){
+            return name;
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if(!(o instanceof graph.Node)){
+                return false;
+            }
+            graph.Node n = (graph.Node) o;
+            return this.name.equals(n.name);
+        }
+
+        @Override
+        public int hashCode(){
+            return name.length();
+        }
+
 
     }
 

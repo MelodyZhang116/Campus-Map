@@ -56,4 +56,18 @@ public final class Edge {
     public Node getChild(){
         return child;
     }
+
+    @Override
+    public int hashCode(){
+        return parent.hashCode()+child.hashCode()+label.length();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(!(o instanceof Edge)){
+            return false;
+        }
+        Edge n = (Edge) o;
+        return parent.equals(n.parent) && child.equals(n.child) && label.equals(n.label);
+    }
 }

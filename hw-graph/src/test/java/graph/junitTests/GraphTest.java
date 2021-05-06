@@ -23,7 +23,7 @@ public class GraphTest {
      * Tests that "add a node that already exist in graph" throws an IllegalArgumentException
      */
     @Test(expected=IllegalArgumentException.class)
-    public void addNodeAlreadyExit() {
+    public void addNodeAlreadyExist() {
         Graph g = new Graph();
         g.insertNode("n1");
         g.insertNode("n1");
@@ -72,8 +72,8 @@ public class GraphTest {
         g.insertNode("n2");
         g.insertEdge("n2","n1","e1");
         g.removeNode("n1");
-        assertEquals("remove node incorrectly because nodes are incorrect","n2",g.listNodes());
-
+        assertEquals("remove node incorrectly because nodes are incorrect"," n2",g.listNodes());
+        assertEquals("remove node incorrectly because edge is incorrect","",g.listChildren("n2"));
     }
     /** Tests whether removing a node(not in the graph) throw IllegalArgumentException
      *
@@ -169,12 +169,6 @@ public class GraphTest {
         assertFalse(g.containsNode("n2"));
 
     }
-
-
-
-
-
-
 
     /**
      *  Tests whether listChildren() throws IllegalArgumentException when parent not exist
