@@ -133,7 +133,7 @@ public class Graph {
         String result = "";
         Iterator<String> itr = sortedNodes.iterator();
         while(itr.hasNext()){
-            result = result + itr.next()+" ";
+            result = result + " "+itr.next();
         }
         return result;
 
@@ -152,13 +152,17 @@ public class Graph {
             throw new IllegalArgumentException();
         }
         Set<String> children = new TreeSet<>();
-        for(Edge ed: graph.get(new Node(parent))){
-            children.add(ed.getChild().getName());
+        Node node = new Node(parent);
+        if(graph.get(node).isEmpty()){
+            return "";
+        }
+        for(Edge ed: graph.get(node)){
+            children.add(ed.getChild().getName()+"("+ed.getName()+")");
         }
         String result = "";
         Iterator<String> itr = children.iterator();
         while(itr.hasNext()){
-            result = result + itr.next()+" ";
+            result = result + " "+itr.next();
         }
         return result;
 

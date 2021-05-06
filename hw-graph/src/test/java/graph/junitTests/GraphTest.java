@@ -1,6 +1,8 @@
 package graph.junitTests;
 import graph.Graph;
 import org.junit.Test;
+import org.junit.Rule;
+import org.junit.rules.Timeout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,8 @@ import static org.junit.Assert.assertEquals;
  * class.
  */
 public class GraphTest {
+    @Rule public Timeout glocalTimeout = Timeout.seconds(10);//10 seconds max per method tested
+
     /**
      * Tests that "add a node that already exist in graph" throws an IllegalArgumentException
      */
@@ -166,95 +170,12 @@ public class GraphTest {
 
     }
 
-    /** Tests whether listPath() throws IllegalArgumentException when parent and child not exist
-     *
-     */
-    @Test(expected=IllegalArgumentException.class)
-    public void listPathNotChildNotParent() {
-        Graph g = new Graph();
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n2","n1");
-
-    }
-
-    /**
-     *  Tests whether listPath() throws IllegalArgumentException when parent not exist
-     */
-    @Test(expected=IllegalArgumentException.class)
-    public void listPathNotParent() {
-        Graph g = new Graph();
-        g.insertNode("n1");
-        g.insertNode("n2");
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n3","n1");
-
-    }
-    /**
-     *  Tests whether listPath() throws IllegalArgumentException when child not exist
-     */
-    @Test(expected=IllegalArgumentException.class)
-    public void listPathNotChild() {
-        Graph g = new Graph();
-        g.insertNode("n1");
-        g.insertNode("n2");
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n1","n3");
-
-    }
-    /** Tests whether listPath() work correctly when there is no path between parent and child
-     *
-     */
-    @Test
-    public void listPathWithNoPath() {
-        Graph g = new Graph();
-        g.insertNode("n1");
-        g.insertNode("n2");
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n1","n2");
-        List<String> compareWith = new ArrayList<String>();
-        assertEquals(compareWith,result);
 
 
-    }
-
-    /** Tests whether listPath() work correctly when there is ONE path between parent and child
-     *
-     */
-    @Test
-    public void listPathWithOnePath() {
-        Graph g = new Graph();
-        g.insertNode("n1");
-        g.insertNode("n2");
-        g.insertEdge("n1","n2","e1");
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n1","n2");
-        List<String> compareWith = new ArrayList<String>();
-        compareWith.add("n2(e1)");
-        assertEquals(compareWith,result);
 
 
-    }
-    /** Tests whether listPath() work correctly when there is MULTIPLE paths between parent and child
-     *
-     */
-    @Test
-    public void listPathWithMultiplePath() {
-        Graph g = new Graph();
-        g.insertNode("n1");
-        g.insertNode("n2");
-        g.insertEdge("n1","n2","e12");
-        g.insertNode("n3");
-        g.insertEdge("n1","n3","n13");
-        g.insertEdge("n3","n2","n32");
-        List<String> result = new ArrayList<String>();
-        result = g.listPath("n1","n2");
-        List<String> compareWith = new ArrayList<String>();
-        compareWith.add("n2(e12)");
-        compareWith.add("n3(n13),n2(n32)");
-        assertEquals(compareWith,result);
 
 
-    }
     /**
      *  Tests whether listChildren() throws IllegalArgumentException when parent not exist
      */
