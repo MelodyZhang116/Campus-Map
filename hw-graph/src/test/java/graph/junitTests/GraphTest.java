@@ -20,6 +20,50 @@ public class GraphTest {
     @Rule public Timeout glocalTimeout = Timeout.seconds(10);//10 seconds max per method tested
 
     /**
+     * test a more complicated graph and also test that if listNode and listChildren
+     * return string that store nodes/edges in alphabetical order
+     */
+    @Test
+    public void complicatedAlphabeticalTest(){
+        Graph a = new Graph();
+        a.insertNode("hijk");
+        a.insertNode("abc");
+        a.insertNode("def");
+        a.insertEdge("abc","def","l1");
+        a.insertEdge("hijk","abc","l2");
+        a.insertEdge("def","hijk","l3");
+        a.insertEdge("def","def","self");
+        Graph b = new Graph();
+        b.insertNode("xyz");
+        b.insertNode("lmn");
+        b.insertNode("opq");
+        b.insertEdge("xyz","lmn","l1");
+        b.insertEdge("opq","xyz","l2");
+        b.insertEdge("lmn","xyz","l3");
+        b.insertEdge("xyz","opq","haha");
+        b.insertEdge("xyz","xyz","wow");
+        b.insertEdge("xyz","lmn","zzz");
+        assertEquals(" abc def hijk",a.listNodes());
+        assertEquals(" def(self) hijk(l3)",a.listChildren("def"));
+        assertEquals(" lmn opq xyz",b.listNodes());
+        assertEquals(" lmn(l1) lmn(zzz) opq(haha) xyz(wow)",b.listChildren("xyz"));
+        a.removeEdge("def","def","self");
+        assertEquals(" abc def hijk",a.listNodes());
+        assertEquals(" hijk(l3)",a.listChildren("def"));
+        a.insertEdge("def","def","self");
+        b.removeEdge("xyz","lmn","l1");
+        assertEquals(" lmn(zzz) opq(haha) xyz(wow)",b.listChildren("xyz"));
+        b.insertEdge("xyz","lmn","l1");
+        a.removeNode("abc");
+        assertEquals(" def hijk",a.listNodes());
+        assertEquals("",a.listChildren("hijk"));
+        b.removeNode("opq");
+        assertEquals(" lmn xyz",b.listNodes());
+        assertEquals(" lmn(l1) lmn(zzz) xyz(wow)",b.listChildren("xyz"));
+
+
+    }
+    /**
      * Tests that "add a node that already exist in graph" throws an IllegalArgumentException
      */
     @Test(expected=IllegalArgumentException.class)

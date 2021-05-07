@@ -1,8 +1,10 @@
 package graph.junitTests;
-import graph.Node;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
+import graph.Graph;
+import graph.Graph.Node;
+import graph.Graph.Edge;
 
 import static org.junit.Assert.assertEquals;
 

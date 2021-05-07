@@ -40,12 +40,16 @@ I plan to use adjacency list, because it takes less space,and it is also visuall
 
 1. Describe any new tests you added and why you added them, or why you feel that your original
 tests alone are sufficient.
+I added one more test that include complicated graph and also test the string returned by listNode and listChildren
+method are sorted in alphabetical order.
 
 
 
 
 2. Did you make any changes to your specifications as you were implementing your Graph? (yes/no)
 If yes, describe your changes and why you made them.
+yes, I deleted method stubs for path finding, because that is clients' job.
+I move the Node and Edge class into graph class to be inner classes.
 
 
 
