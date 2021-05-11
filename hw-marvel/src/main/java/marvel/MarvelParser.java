@@ -16,7 +16,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Parser utility to load the Marvel Comics dataset.
@@ -26,14 +28,24 @@ public class MarvelParser {
     /**
      * Reads the Marvel Universe dataset. Each line of the input file contains a character name and a
      * comic book the character appeared in, separated by a tab character
-     *
+     * @return a map that store the character name in key and name of comic book in element of that key
      * @param filename the file that will be read
      * @throws IOException if an error occurs while reading the file
      * @spec.requires filename is a valid file in the resources/data folder.
      */
     // TODO: Replace 'void' with the type you want the parser to produce
-    public static void parseData(String filename) throws IOException {
-        List<String> lines = readLines(filename);
+    public static Map<String, String> parseData(String filename) throws IOException {
+        try {
+            List<String> lines = readLines(filename);
+            Map<String, String> data = new HashMap<String, String>();
+            for (String str : lines) {
+                int index = str.indexOf(",");
+                data.put(str.substring(0, index - 1), str.substring(index + 1));
+            }
+            return data;
+        }catch(IllegalArgumentException){
+            throw new IOException();
+        }
 
         // TODO: Complete this method
         // You'll need to:
