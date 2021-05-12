@@ -1,2 +1,6 @@
 Briefly list any changes you made to your graph class during hw-marvel, and why you made those changes.
+I change the method insertEdge. Before change, it threw exception if child or parent does not exist.
+After change, it will automatically build child node or parent node if they do not exist.
 
+I add two method get(String parent) and get(Node parent). Their function is the same is get(Object o)
+in the map.

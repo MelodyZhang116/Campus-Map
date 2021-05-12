@@ -66,17 +66,21 @@ public class Graph {
 
     /**
      * Add an edge from parent to child, named label, to the graph
+     * if the child or parent node does not exist, then add a new node to graph and then add edge
      * @param parent node that the edge starts from
      * @param child node that the edge ends with
      * @param label the name of the edge
-     * @throws IllegalArgumentException if parent or child is not in the graph or the
-     * edge is alreadu in the graph
+     * @throws IllegalArgumentException if the edge already exist
      * @spec.modifies this
      * @spec.effects insert edge from parent to child to this
      */
     public void insertEdge(String parent,String child,String label){
         Edge ed = new Edge(parent,child,label);
-        if(!graph.containsKey(new Node(parent))||!graph.containsKey(new Node(child))||graph.get(ed.getParent()).contains(ed)){
+        if(!graph.containsKey(new Node(parent))){
+            this.insertNode(parent);
+        }else if(!graph.containsKey(new Node(child))){
+            this.insertNode(child);
+        }else if(graph.get(ed.getParent()).contains(ed)){
             throw new IllegalArgumentException();
         }
         graph.get(ed.getParent()).add(ed);
@@ -180,6 +184,24 @@ public class Graph {
         }
         return result;
 
+    }
+
+    /**
+     * return a list of edge that starts from parent node
+     * @param parent the name of parent node that the edge start from
+     * @return a list of edge that starts from parent node
+     */
+    public List<Edge> get(String parent){
+        return graph.get(new Node(parent));
+    }
+
+    /**
+     * return a list of edge that starts from parent node
+     * @param parent the node that edge starts from
+     * @return a list of edge that starts from parent node
+     */
+    public List<Edge> get(Node parent){
+        return graph.get(parent);
     }
 
 
