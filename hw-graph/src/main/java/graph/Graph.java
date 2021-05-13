@@ -180,7 +180,7 @@ public class Graph {
         while(itr.hasNext()){ // add the names into string result
             String nextChild = itr.next();
             int index = nextChild.indexOf(" ");
-            String[] childToAdd = new String[]{nextChild.substring(0,index-1),nextChild.substring(index+1)};
+            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
             result.add(childToAdd);
 
         }

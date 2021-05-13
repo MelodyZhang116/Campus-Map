@@ -186,7 +186,14 @@ public class GraphTestDriver {
     private void listChildren(String graphName, String parentName) {
 
         Graph g = graphs.get(graphName);
-        output.println("the children of "+parentName+" in "+graphName+" are:" +g.listChildren(parentName));
+        output.print("the children of "+parentName+" in "+graphName+" are:");
+        List<String[]> children = g.listChildren(parentName);
+        if(!children.isEmpty()){
+            for(String[] childEdge:children){
+                output.print(" "+childEdge[0]+"("+childEdge[1]+")");
+            }
+        }
+        output.println();
     }
 
     /**

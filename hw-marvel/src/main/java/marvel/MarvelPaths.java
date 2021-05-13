@@ -12,8 +12,8 @@ import static marvel.MarvelParser.parseData;
 public class MarvelPaths {
     private Graph g;
 
-    public MarvelPaths() throws IOException {
-        Map<String, List<String>> data = parseData("marvel.csv");
+    public MarvelPaths(String fileName) throws IOException {
+        Map<String, List<String>> data = parseData(fileName);
         for(String comic : data.keySet()){
             for(String character1:data.get(comic)){
                 for(String character2:data.get(comic)){
@@ -26,16 +26,27 @@ public class MarvelPaths {
 
     }
 
-    public String findPaths(String starting, String destination){
-        if(!g.containsNode(starting) && !g.containsNode(destination)){
-            return "unknown: "+starting+"\nunknown: "+destination;
-        }
-        if(!g.containsNode(starting)){
-            return "unknown: " + starting;
-        }
-        if(!g.containsNode(destination)){
-            return "unknown: "+destination;
-        }
+
+    public boolean containsNode(String node) {
+        return g.containsNode(node);
+    }
+    public List<String[]> listChildren(String parent){
+        return g.listChildren(parent);
+    }
+
+    public MarvelPaths(Graph g){
+        this.g = g;
+    }
+    public void insertNode(String node){
+        g.insertNode(node);
+    }
+
+    public void insertEdge(String parent,String child,String label){
+        g.insertEdge(parent,child,label);
+    }
+
+    public List<Edge> findPaths(String starting, String destination){
+
 
         Node start = new Node(starting);
         Node dest = new Node(destination);
@@ -49,24 +60,25 @@ public class MarvelPaths {
         while(!nodesToVisit.isEmpty()){
             Node nodeVisiting = nodesToVisit.remove();
             if(nodeVisiting.equals(dest)){
-                //return a string TODO
-                return turnToString(map.get(nodeVisiting),starting,destination);
+                return map.get(nodeVisiting);
             }
 
-            //before foreach loop, turn all the children(with its edge) of the node to be visited
-            // to an alphabetically sorted arraylist.
-            List<String[]> sortedEdge= g.listChildren(nodeVisiting.getName());//get a alphabetically sorted string of children
+
+            List<String[]> sortedEdge= g.listChildren(nodeVisiting.getName());
 
             // at this stage, sortedEdge should be a arraylist of edge that is sorted alphabetically
 
             for(String[] childAndEdge :sortedEdge){
-                Node child = new
-                if(!map.containsKey()){ //that child has not been visited
-                    List<Edge> path = map.get(nodeVisiting);
-                    path.add(edgeOfChildren);
+                Node child = new Node(childAndEdge[0]);
+                Edge edge = new Edge(nodeVisiting.getName(),childAndEdge[0],childAndEdge[1]);
+                if(!map.containsKey(child)){ //that child has not been visited
 
-                    map.put(edgeOfChildren.getChild(), path);
-                    nodesToVisit.add(edgeOfChildren.getChild());
+                    map.put(child,new ArrayList<Edge>());
+                    for(Edge ed:map.get(nodeVisiting)){
+                        map.get(child).add(ed);
+                    }
+                    map.get(child).add(edge);
+                    nodesToVisit.add(child);
 
                 }
             }
@@ -77,16 +89,5 @@ public class MarvelPaths {
         throw new RuntimeException();
     }
 
-    private String turnToString(List<Edge> edge,String start,String dest){
-        String result = "";
-        result += "path from "+start+" to "+dest+":";
-        if(edge.isEmpty()){
-            result += "/nno path found";
-            return result;
-        }
-        for(Edge ed:edge){
-            result += "/n"+ed.getParent().getName()+" to "+ed.getChild().getName()+" via "+ed.getName();
-        }
 
-    }
 }
