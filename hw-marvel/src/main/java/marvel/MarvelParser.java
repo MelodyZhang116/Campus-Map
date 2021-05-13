@@ -42,7 +42,7 @@ public class MarvelParser {
             Map<String, List<String>> data = new HashMap<String, List<String>>();
             for (String str : lines) {
                 int index = str.indexOf(",");
-                String character = str.substring(0, index - 1);
+                String character = str.substring(0, index);
                 String comic = str.substring(index + 1);
                 if(!data.containsKey(comic)){
                     data.put(comic,new ArrayList<String>());

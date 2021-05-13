@@ -129,17 +129,18 @@ public class MarvelTestDriver {
             if(!marvel.containsNode(destination)){
                 output.println("unknown: "+destination);
             }
-        }
-        output.println("path from "+start+" to "+destination+":");
-        try {
-            List<Graph.Edge> paths = marvel.findPaths(start,destination);
+        }else {
+            output.println("path from " + start + " to " + destination + ":");
+            try {
+                List<Graph.Edge> paths = marvel.findPaths(start, destination);
 
-            for (Edge ed : paths) {
-                output.println(ed.getParent().getName() + " to " + ed.getChild().getName() + " via " + ed.getName());
+                for (Edge ed : paths) {
+                    output.println(ed.getParent().getName() + " to " + ed.getChild().getName() + " via " + ed.getName());
 
+                }
+            } catch (RuntimeException r) {
+                output.println("no path found");
             }
-        }catch(RuntimeException r){
-            output.println("no path found");
         }
 
     }
