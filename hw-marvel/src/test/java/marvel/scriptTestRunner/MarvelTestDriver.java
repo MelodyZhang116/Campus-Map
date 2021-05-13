@@ -130,9 +130,10 @@ public class MarvelTestDriver {
                 output.println("unknown: "+destination);
             }
         }
-        List<Graph.Edge> paths = marvel.findPaths(start,destination);
         output.println("path from "+start+" to "+destination+":");
         try {
+            List<Graph.Edge> paths = marvel.findPaths(start,destination);
+
             for (Edge ed : paths) {
                 output.println(ed.getParent().getName() + " to " + ed.getChild().getName() + " via " + ed.getName());
 
