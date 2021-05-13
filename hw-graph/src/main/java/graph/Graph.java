@@ -164,23 +164,25 @@ public class Graph {
      * specified in listNode method.
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
-    public String listChildren(String parent){
+    public List<String[]> listChildren(String parent){
         if(!this.containsNode(parent)){
             throw new IllegalArgumentException();
         }
         Set<String> children = new TreeSet<>();
         Node node = new Node(parent);
-        if(graph.get(node).isEmpty()){
-            return "";
-        }
+
         for(Edge ed: graph.get(node)){ // add the name of children associated with its edge
                                        //to a TreeSet
-            children.add(ed.getChild().getName()+"("+ed.getName()+")");
+            children.add(ed.getChild().getName()+" "+ed.getName());
         }
-        String result = "";
+        List<String[]> result = new ArrayList<String[]>();
         Iterator<String> itr = children.iterator();
         while(itr.hasNext()){ // add the names into string result
-            result = result + " "+itr.next();
+            String nextChild = itr.next();
+            int index = nextChild.indexOf(" ");
+            String[] childToAdd = new String[]{nextChild.substring(0,index-1),nextChild.substring(index+1)};
+            result.add(childToAdd);
+
         }
         return result;
 

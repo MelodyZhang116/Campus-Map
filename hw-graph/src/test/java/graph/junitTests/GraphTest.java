@@ -222,7 +222,7 @@ public class GraphTest {
         Graph g = new Graph();
         g.insertNode("n1");
         g.insertNode("n2");
-        String result = g.listChildren("n3");
+        List<String[]> result = g.listChildren("n3");
 
     }
 
