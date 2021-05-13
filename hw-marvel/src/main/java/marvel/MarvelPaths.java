@@ -14,11 +14,12 @@ public class MarvelPaths {
 
     public MarvelPaths(String fileName) throws IOException {
         Map<String, List<String>> data = parseData(fileName);
+        g = new Graph();
         for(String comic : data.keySet()){
             for(String character1:data.get(comic)){
                 for(String character2:data.get(comic)){
                     if(!character1.equals(character2)){
-                        g.insertEdge(character1,character2,comic);
+                        this.insertEdge(character1,character2,comic);
                     }
                 }
             }
