@@ -80,10 +80,11 @@ public class Graph {
             this.insertNode(parent);
         }else if(!graph.containsKey(new Node(child))){
             this.insertNode(child);
-        }else if(graph.get(ed.getParent()).contains(ed)){
-            throw new IllegalArgumentException();
         }
-        graph.get(ed.getParent()).add(ed);
+        if(!graph.get(ed.getParent()).contains(ed)){
+            graph.get(ed.getParent()).add(ed);
+
+        }
         checkRep();
     }
 
