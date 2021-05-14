@@ -1,0 +1,5 @@
+# test that the MarvelPaths does not store a self-cycling edge even if the graph contains self-cycling edge.
+
+loaded graph selfcycling
+
+the children of n1 in selfcycling are: n2(e1) n3(e1)

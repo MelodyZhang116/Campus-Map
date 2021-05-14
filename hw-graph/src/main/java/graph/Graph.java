@@ -22,9 +22,10 @@ public class Graph {
      * throw exception if rep invariant is violated.
      */
     private void checkRep(){
-        assert(!graph.containsKey(null)): "The graph has null node(s)";
-        assert (!graph.containsValue(null)) :"The graph has null edge(s)";
         if(DEBUG){
+            assert(!graph.containsKey(null)): "The graph has null node(s)";
+            assert (!graph.containsValue(null)) :"The graph has null edge(s)";
+
             for(List<Edge> list:graph.values()){
                 for(int i = 0 ; i < list.size()-1 ; i++){
                     assert(list.get(i) != null):"The graph has null edges";
@@ -49,6 +50,9 @@ public class Graph {
         checkRep();
     }
 
+    public Collection<List<Edge>> allEdges(){
+        return graph.values();
+    }
     /**
      * Add a node to the graph.
      * @param node with name node to be added
@@ -159,10 +163,10 @@ public class Graph {
     }
 
     /**
-     * return a string consisting of names of children nodes of the given parent.
+     * return a list of string[] consisting of names of children nodes of the given parent.
      * @param parent node that is parent
-     * @return a string consisting of names of children of parent. The syntax is
-     * specified in listNode method.
+     * @return a list of string[] consisting of names of children nodes of the given parent.
+     * each string[] has two elements: name of child node in index0, name of edge in index 1
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
     public List<String[]> listChildren(String parent){

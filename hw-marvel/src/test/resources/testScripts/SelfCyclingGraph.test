@@ -1,0 +1,5 @@
+# test that the MarvelPaths does not store a self-cycling edge even if the graph contains self-cycling edge.
+
+LoadGraph selfcycling SelfCyclingGraph.csv
+
+ListChildren selfcycling n1

@@ -40,7 +40,7 @@ public class MarvelParser {
 
             List<String> lines = readLines(filename);
             Map<String, List<String>> data = new HashMap<String, List<String>>();
-            for (String str : lines) {
+            for (String str : lines) { //each str is in the form of character,book
                 int index = str.indexOf(",");
                 String character = str.substring(0, index);
                 String comic = str.substring(index + 1);
