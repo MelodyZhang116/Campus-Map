@@ -36,20 +36,24 @@ public class MarvelParser {
      * @spec.requires filename is a valid file in the resources/data folder.
      */
     // TODO: Replace 'void' with the type you want the parser to produce
-    public static Map<String, List<String>> parseData(String filename) {
-
-            List<String> lines = readLines(filename);
-            Map<String, List<String>> data = new HashMap<String, List<String>>();
-            for (String str : lines) { //each str is in the form of character,book
-                int index = str.indexOf(",");
-                String character = str.substring(0, index);
-                String comic = str.substring(index + 1);
-                if(!data.containsKey(comic)){
-                    data.put(comic,new ArrayList<String>());
+    public static Map<String, List<String>> parseData(String filename) throws IOException {
+            try {
+                List<String> lines = readLines(filename);
+                Map<String, List<String>> data = new HashMap<String, List<String>>();
+                for (String str : lines) { //each str is in the form of character,book
+                    int index = str.indexOf(",");
+                    String character = str.substring(0, index);
+                    String comic = str.substring(index + 1);
+                    if(!data.containsKey(comic)){
+                        data.put(comic,new ArrayList<String>());
+                    }
+                    data.get(comic).add(character);
                 }
-                data.get(comic).add(character);
+                return data;
+            } catch(IllegalArgumentException e){
+                throw new IOException();
             }
-            return data;
+
 
 
         // TODO: Complete this method

@@ -25,6 +25,30 @@ public class MarvelPaths {
     // child are the characters both appear in that book)
     private Graph g;
 
+//    public static void main(String[] args){
+//        try {
+//            Scanner input = new Scanner(System.in);
+//            System.out.println("Do you want to start?Yes/No");
+//            while (input.nextLine().equalsIgnoreCase("yes")) {
+//                System.out.println("Give a name to your MarvelPaths:");
+//                String name = input.nextLine();
+//                System.out.println("Which file you want to read from?");
+//                String file = input.nextLine();
+//                MarvelPaths graph = new MarvelPaths(file);
+//                System.out.println("Do you want to find a path? Yes/No");
+//                while(input.nextLine().equalsIgnoreCase("yes")){
+//                    System.out.println("a character name to start:");
+//                    String starting = input.nextLine();
+//
+//                }
+//
+//
+//            }
+//        } catch (IOException e){
+//            System.out.println("the file doesn't exist, has an invalid name, or can't be read");
+//        }
+//    }
+
     /**
      * throw exception if rep invariant is violated.
      */
@@ -120,7 +144,8 @@ public class MarvelPaths {
      * and return a path through the graph connecting them. And it return the shortest path found by BFS.
      * @param starting the path that starts from
      * @param destination the path that end with
-     * @return a path through the graph connecting them. And it return the shortest path found by BFS.
+     * @return a path through the graph connecting them. And it return the shortest path found by BFS
+     * @spec.requires starting and destination is in g(main checks that)
      */
     public List<Edge> findPaths(String starting, String destination){
         Node start = new Node(starting);
