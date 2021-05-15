@@ -41,15 +41,22 @@ public class MarvelPaths {
                     String starting = input.nextLine();
                     while(!graph.containsNode(starting)){
                         System.out.println("start does not exist.");
-                        System.out.println("Another name to start: ");
+                        System.out.println("Another name to start(or q to quit): ");
+
                         starting = input.nextLine();
+                        if(starting.equalsIgnoreCase("q")){
+                            break;
+                        }
                     }
                     System.out.println("a character name to end: ");
                     String dest = input.nextLine();
                     while(!graph.containsNode(dest)){
                         System.out.println("destination does not exist");
-                        System.out.println("Another name to end: ");
+                        System.out.println("Another name to end (or q to quit): ");
                         dest = input.nextLine();
+                        if(dest.equalsIgnoreCase("q")){
+                            break;
+                        }
                     }
                     try{
                         List<Edge> paths = graph.findPaths(starting,dest);
@@ -97,12 +104,14 @@ public class MarvelPaths {
                                             // whose key is name of comic book, and value are characters contained in that book
         g = new Graph();
         for(String comic : data.keySet()){
-            for(String character1:data.get(comic)){
-                for(String character2:data.get(comic)){
-                    if(!character1.equals(character2)){
-                        this.insertEdge(character1,character2,comic);//insert edge from one character to another character
+            List<String> characters = data.get(comic);
+            for(int i = 0 ; i <characters.size();i++){
+                for(int j =i+1; j<characters.size();j++){
+                    if(!characters.get(i).equals(characters.get(j))){
+                        this.insertEdge(characters.get(i),characters.get(j),comic);//insert edge from one character to another character
                                                                     // with name of comic book(two characters appear in that book
                                                                     // and they cannot be the same)
+                        this.insertEdge(characters.get(j),characters.get(i),comic);
                     }
                 }
             }
@@ -196,8 +205,9 @@ public class MarvelPaths {
                 Node child = new Node(childAndEdge[0]);
                 Edge edge = new Edge(nodeVisiting.getName(),childAndEdge[0],childAndEdge[1]);
                 if(!map.containsKey(child)){ //that child has not been visited
-                    List<Edge> path = map.get(nodeVisiting);
+                    List<Edge> path = new ArrayList<>(map.get(nodeVisiting));
                     path.add(edge);
+
                     map.put(child,path);
                     nodesToVisit.add(child);
                 }

@@ -35,7 +35,6 @@ public class MarvelParser {
      * @throws IOException if an error occurs while reading the file
      * @spec.requires filename is a valid file in the resources/data folder.
      */
-    // TODO: Replace 'void' with the type you want the parser to produce
     public static Map<String, List<String>> parseData(String filename) throws IOException {
             try {
                 List<String> lines = readLines(filename);
@@ -56,10 +55,6 @@ public class MarvelParser {
 
 
 
-        // TODO: Complete this method
-        // You'll need to:
-        //  - Split each line into its individual parts
-        //  - Collect the data into some convenient data structure(s) to return to the graph building code
     }
 
     /**
