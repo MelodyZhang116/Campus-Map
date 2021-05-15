@@ -169,7 +169,7 @@ public class ScriptFileTests {
      *
      * @throws IOException on a failure reading the test files
      */
-    @Test(timeout = 30000)
+    @Test//(timeout = 30000)
     public void checkOutput() throws IOException {
         File expectedFile = fileWithExtension(testScriptFile, "expected");
         if (!expectedFile.exists()) {

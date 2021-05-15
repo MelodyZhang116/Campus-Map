@@ -25,29 +25,54 @@ public class MarvelPaths {
     // child are the characters both appear in that book)
     private Graph g;
 
-//    public static void main(String[] args){
-//        try {
-//            Scanner input = new Scanner(System.in);
-//            System.out.println("Do you want to start?Yes/No");
-//            while (input.nextLine().equalsIgnoreCase("yes")) {
-//                System.out.println("Give a name to your MarvelPaths:");
-//                String name = input.nextLine();
-//                System.out.println("Which file you want to read from?");
-//                String file = input.nextLine();
-//                MarvelPaths graph = new MarvelPaths(file);
-//                System.out.println("Do you want to find a path? Yes/No");
-//                while(input.nextLine().equalsIgnoreCase("yes")){
-//                    System.out.println("a character name to start:");
-//                    String starting = input.nextLine();
-//
-//                }
-//
-//
-//            }
-//        } catch (IOException e){
-//            System.out.println("the file doesn't exist, has an invalid name, or can't be read");
-//        }
-//    }
+    public static void main(String[] args){
+        try {
+            Scanner input = new Scanner(System.in);
+            System.out.println("Do you want to start?Yes/No");
+            while (input.nextLine().equalsIgnoreCase("yes")) {
+                System.out.println("Give a name to your MarvelPaths:");
+                String name = input.nextLine();
+                System.out.println("Which file you want to read from?");
+                String file = input.nextLine();
+                MarvelPaths graph = new MarvelPaths(file);
+                System.out.println("Do you want to find a path? Yes/No");
+                while(input.nextLine().equalsIgnoreCase("yes")){
+                    System.out.println("a character name to start:");
+                    String starting = input.nextLine();
+                    while(!graph.containsNode(starting)){
+                        System.out.println("start does not exist.");
+                        System.out.println("Another name to start: ");
+                        starting = input.nextLine();
+                    }
+                    System.out.println("a character name to end: ");
+                    String dest = input.nextLine();
+                    while(!graph.containsNode(dest)){
+                        System.out.println("destination does not exist");
+                        System.out.println("Another name to end: ");
+                        dest = input.nextLine();
+                    }
+                    try{
+                        List<Edge> paths = graph.findPaths(starting,dest);
+                        for(Edge ed:paths){
+                            System.out.println(ed.getParent().getName()+" to "+ed.getChild().getName()+" via "+ed.getName());
+                        }
+                    }catch(RuntimeException e){
+                        System.out.println("no path found");
+                    }
+
+
+                }
+                System.out.println("Do you want to find a path? Yes/No");
+
+
+
+            }
+            System.out.println("Do you want to start?Yes/No");
+
+        } catch (IOException e){
+            System.out.println("the file doesn't exist, has an invalid name, or can't be read");
+        }
+    }
 
     /**
      * throw exception if rep invariant is violated.
@@ -150,6 +175,9 @@ public class MarvelPaths {
     public List<Edge> findPaths(String starting, String destination){
         Node start = new Node(starting);
         Node dest = new Node(destination);
+        if(!g.containsNode(starting) || !g.containsNode(destination)){
+            throw new IllegalArgumentException();
+        }
         Queue<Node> nodesToVisit = new LinkedList<>();   //the worklist
         Map<Node,List<Edge>> map = new HashMap<Node,List<Edge>>();  //map from node to path
         //Each key in map is a visited node, each value is a path from start to that node
