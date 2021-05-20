@@ -23,7 +23,7 @@ public class MarvelPaths {
 
     //a graph that store characters of comic book as nodes and the name of that comic book as edge(its parent and
     // child are the characters both appear in that book)
-    private Graph g;
+    private Graph<String,String> g;
 
     public static void main(String[] args){
         try {
@@ -59,7 +59,7 @@ public class MarvelPaths {
                         }
                     }
                     try{
-                        List<Edge> paths = graph.findPaths(starting,dest);
+                        List<Edge<String,String>> paths = graph.findPaths(starting,dest);
                         for(Edge ed:paths){
                             System.out.println(ed.getParent().getName()+" to "+ed.getChild().getName()+" via "+ed.getName());
                         }
@@ -81,18 +81,7 @@ public class MarvelPaths {
         }
     }
 
-    /**
-     * throw exception if rep invariant is violated.
-     */
-    private void checkRep(){
-        if(DEBUG){
-            for(List<Edge> list:g.allEdges()){
-                for(Edge ed:list){
-                    assert (!ed.getParent().equals(ed.getChild())):"there is edge whose parent and child are the same";
-                }
-            }
-        }
-    }
+
     /**
      * constructor that construct a new Graph
      * @param fileName convert the lines in fileName into a MarvelPaths
@@ -102,7 +91,7 @@ public class MarvelPaths {
     public MarvelPaths(String fileName) throws IOException {
         Map<String, List<String>> data = parseData(fileName);//convert the content in csv file into a map
                                             // whose key is name of comic book, and value are characters contained in that book
-        g = new Graph();
+        g = new Graph<String,String>();
         for(String comic : data.keySet()){
             List<String> characters = data.get(comic);
             for(int i = 0 ; i <characters.size();i++){
@@ -123,7 +112,7 @@ public class MarvelPaths {
      * @param g a graph to store in this.g
      * @spec.effects construct a new MarvelPaths
      */
-    public MarvelPaths(Graph g){
+    public MarvelPaths(Graph<String,String> g){
         this.g = g;
     }
 
@@ -181,31 +170,31 @@ public class MarvelPaths {
      * @return a path through the graph connecting them. And it return the shortest path found by BFS
      * @spec.requires starting and destination is in g(main checks that)
      */
-    public List<Edge> findPaths(String starting, String destination){
-        Node start = new Node(starting);
-        Node dest = new Node(destination);
+    public List<Edge<String,String>> findPaths(String starting, String destination){
+        Node<String> start = new Node<String>(starting);
+        Node<String> dest = new Node<String>(destination);
         if(!g.containsNode(starting) || !g.containsNode(destination)){
             throw new IllegalArgumentException();
         }
-        Queue<Node> nodesToVisit = new LinkedList<>();   //the worklist
-        Map<Node,List<Edge>> map = new HashMap<Node,List<Edge>>();  //map from node to path
+        Queue<Node<String>> nodesToVisit = new LinkedList<>();   //the worklist
+        Map<Node<String>,List<Edge<String,String>>> map = new HashMap<Node<String>,List<Edge<String,String>>>();  //map from node to path
         //Each key in map is a visited node, each value is a path from start to that node
 
         nodesToVisit.add(start);
-        map.put(start,new ArrayList<Edge>());
+        map.put(start,new ArrayList<Edge<String,String>>());
 
         while(!nodesToVisit.isEmpty()){
-            Node nodeVisiting = nodesToVisit.remove();
+            Node<String> nodeVisiting = nodesToVisit.remove();
             if(nodeVisiting.equals(dest)){
                 return map.get(nodeVisiting); // find the path!
             }
 
             List<String[]> sortedEdge= g.listChildren(nodeVisiting.getName()); //get the children of that node which is visited in sorted order
             for(String[] childAndEdge :sortedEdge){
-                Node child = new Node(childAndEdge[0]);
-                Edge edge = new Edge(nodeVisiting.getName(),childAndEdge[0],childAndEdge[1]);
+                Node<String> child = new Node<String>(childAndEdge[0]);
+                Edge<String,String> edge = new Edge<String,String>(nodeVisiting.getName(),childAndEdge[0],childAndEdge[1]);
                 if(!map.containsKey(child)){ //that child has not been visited
-                    List<Edge> path = new ArrayList<>(map.get(nodeVisiting));
+                    List<Edge<String,String>> path = new ArrayList<>(map.get(nodeVisiting));
                     path.add(edge);
 
                     map.put(child,path);

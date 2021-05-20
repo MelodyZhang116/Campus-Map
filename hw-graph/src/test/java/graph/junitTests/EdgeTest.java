@@ -19,8 +19,8 @@ public class EdgeTest  {
      */
     @Test
     public void createEdge() {
-        new Edge("n1","n2","e12");
-        new Edge("n3","n4","n34");
+        new Edge<String,String>("n1","n2","e12");
+        new Edge<String,String>("n3","n4","n34");
     }
 
     /** Tests whether the name of parent of an edge can be returned
@@ -28,8 +28,8 @@ public class EdgeTest  {
      */
     @Test
     public void returnParentName() {
-        Edge n = new Edge("n1","n2","n12");
-        Edge m = new Edge("m1","m2","m12");
+        Edge<String,String> n = new Edge<String,String>("n1","n2","n12");
+        Edge<String,String> m = new Edge<String,String>("m1","m2","m12");
         assertEquals("n1",n.getParent().getName());
         assertEquals("m1",m.getParent().getName());
     }
@@ -38,8 +38,8 @@ public class EdgeTest  {
      */
     @Test
     public void returnChildName() {
-        Edge n = new Edge("n1","n2","n12");
-        Edge m = new Edge("m1","m2","m12");
+        Edge<String,String> n = new Edge<String,String>("n1","n2","n12");
+        Edge<String,String> m = new Edge<String,String>("m1","m2","m12");
         assertEquals("n2",n.getChild().getName());
         assertEquals("m2",m.getChild().getName());
     }
@@ -48,8 +48,8 @@ public class EdgeTest  {
      */
     @Test
     public void returnName() {
-        Edge n = new Edge("n1","n2","n12");
-        Edge m = new Edge("m1","m2","m12");
+        Edge<String,String> n = new Edge<String,String>("n1","n2","n12");
+        Edge<String,String> m = new Edge<String,String>("m1","m2","m12");
         assertEquals("n12",n.getName());
         assertEquals("m12",m.getName());
     }

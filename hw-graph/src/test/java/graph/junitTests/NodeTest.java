@@ -19,8 +19,8 @@ public class NodeTest {
      */
     @Test
     public void createNode() {
-        new Node("n1");
-        new Node("n2");
+        new Node<String>("n1");
+        new Node<String>("n2");
     }
 
     /** Tests whether the name of a node can be returned
@@ -28,8 +28,8 @@ public class NodeTest {
      */
     @Test
     public void returnName() {
-        Node n = new Node("n1");
-        Node m = new Node("m1");
+        Node<String> n = new Node<String>("n1");
+        Node<String> m = new Node<String>("m1");
         assertEquals("n1",n.getName());
         assertEquals("m1",m.getName());
     }

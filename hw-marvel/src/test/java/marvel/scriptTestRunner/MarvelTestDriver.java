@@ -132,9 +132,9 @@ public class MarvelTestDriver {
         }else {
             output.println("path from " + start + " to " + destination + ":");
             try {
-                List<Graph.Edge> paths = marvel.findPaths(start, destination);
+                List<Graph.Edge<String,String>> paths = marvel.findPaths(start, destination);
 
-                for (Edge ed : paths) {
+                for (Edge<String,String> ed : paths) {
                     output.println(ed.getParent().getName() + " to " + ed.getChild().getName() + " via " + ed.getName());
 
                 }
@@ -157,7 +157,7 @@ public class MarvelTestDriver {
 
     private void createGraph(String graphName) {
 
-        marvelGraphs.put(graphName, new MarvelPaths(new Graph()));
+        marvelGraphs.put(graphName, new MarvelPaths(new Graph<String,String>()));
         output.println("created graph "+graphName);
     }
 

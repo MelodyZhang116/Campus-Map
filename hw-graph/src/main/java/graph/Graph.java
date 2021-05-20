@@ -10,13 +10,13 @@ import java.util.*;
  * of edges traveling from A to B. Assume that no 2 edges with the same parent and child nodes will
  * have the same edge label.
  */
-public class Graph {
+public class Graph<A,B> {
     public static final boolean DEBUG = false;
     //rep invariant: for each term in map, there is no null.
     //AF(this) = a graph with nodes in key elements of this.graph and with edges in mapped values of this.graph
 
     //a map that store the nodes in key and store its edge starting from that node into value of that node
-    private Map<Node,List<Edge>> graph;
+    private Map<Node<A>,List<Edge<A,B>>> graph;
 
     /**
      * throw exception if rep invariant is violated.
@@ -26,7 +26,7 @@ public class Graph {
             assert(!graph.containsKey(null)): "The graph has null node(s)";
             assert (!graph.containsValue(null)) :"The graph has null edge(s)";
 
-            for(List<Edge> list:graph.values()){
+            for(List<Edge<A,B>> list:graph.values()){
                 for(int i = 0 ; i < list.size()-1 ; i++){
                     assert(list.get(i) != null):"The graph has null edges";
                     for(int j = i +1; j < list.size(); j++){
@@ -46,11 +46,15 @@ public class Graph {
      * @spec.effects constructs an empty queue
      */
     public Graph(){
-        this.graph = new HashMap<Node,List<Edge>>();
+        this.graph = new HashMap<Node<A>,List<Edge<A,B>>>();
         checkRep();
     }
 
-    public Collection<List<Edge>> allEdges(){
+    /**
+     *
+     * @return return the collection of all values in graph
+     */
+    public Collection<List<Edge<A,B>>> allEdges(){
         return graph.values();
     }
     /**
@@ -60,11 +64,11 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects add node to this
      */
-    public void insertNode(String node){
+    public void insertNode(A node){
         if(this.containsNode(node)){
             throw new IllegalArgumentException();
         }
-        graph.put(new Node(node),new ArrayList<Edge>());
+        graph.put(new Node<A>(node),new ArrayList<Edge<A,B>>());
         checkRep();
     }
 
@@ -78,11 +82,11 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects insert edge from parent to child to this
      */
-    public void insertEdge(String parent,String child,String label){
-        Edge ed = new Edge(parent,child,label);
-        if(!graph.containsKey(new Node(parent))){
+    public void insertEdge(A parent,A child,B label){
+        Edge<A,B> ed = new Edge<A,B>(parent,child,label);
+        if(!graph.containsKey(new Node<A>(parent))){
             this.insertNode(parent);
-        }else if(!graph.containsKey(new Node(child))){
+        }else if(!graph.containsKey(new Node<A>(child))){
             this.insertNode(child);
         }
         if(!graph.get(ed.getParent()).contains(ed)){
@@ -99,13 +103,13 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects remove the node from this
      */
-    public void removeNode(String node){
+    public void removeNode(A node){
         if(!this.containsNode(node)){
             throw new IllegalArgumentException();
         }
-        graph.remove(new Node(node)); // remove the node
-        for(List<Edge> arr:graph.values()){
-            arr.removeIf(ed -> ed.getChild().equals(new Node(node)));
+        graph.remove(new Node<A>(node)); // remove the node
+        for(List<Edge<A,B>> arr:graph.values()){
+            arr.removeIf(ed -> ed.getChild().equals(new Node<A>(node)));
         } //remove any edge that have child of node
         checkRep();
     }
@@ -120,12 +124,12 @@ public class Graph {
      * @spec.modifies this
      * @spec.effects remove the edge from this
      */
-    public void removeEdge(String parent,String child,String label){
-        Edge ed = new Edge(parent, child, label);
-        if(!this.containsNode(parent) || !this.containsNode(child) ||!graph.get(new Node(parent)).contains(ed)){
+    public void removeEdge(A parent,A child,B label){
+        Edge<A,B> ed = new Edge<A,B>(parent, child, label);
+        if(!this.containsNode(parent) || !this.containsNode(child) ||!graph.get(new Node<A>(parent)).contains(ed)){
             throw new IllegalArgumentException();
         }
-        graph.get(new Node(parent)).remove(ed);
+        graph.get(new Node<A>(parent)).remove(ed);
         checkRep();
     }
 
@@ -136,26 +140,25 @@ public class Graph {
      * @param node to be checked
      * @return True if node is contained in this graph, False otherwise
      */
-    public boolean containsNode(String node){
-        return graph.containsKey(new Node(node));
+    public boolean containsNode(A node){
+        return graph.containsKey(new Node<A>(node));
     }
 
     /**
-     * return a string consisting of names of nodes
-     * @return a string consisting of names of nodes. Names are listed on the same line, by
-     * a space-separated list of the node data contained in each node of the graph. The names
+     * return a list consisting of nodes
+     * @return a list consisting of nodes. The names
      * should appear in alphabetical order.
      */
-    public String listNodes(){
-        Set<String> sortedNodes = new TreeSet<String>();
-        for(Node node: graph.keySet()){ //add all nodes in keyset of graph to TreeSet
+    public List<Node<A>> listNodes(){
+        Set<A> sortedNodes = new TreeSet<A>();
+        for(Node<A> node: graph.keySet()){ //add all nodes in keyset of graph to TreeSet
             sortedNodes.add(node.getName());
         }
 
-        String result = "";
-        Iterator<String> itr = sortedNodes.iterator();
+        List<Node<A>> result = new ArrayList<Node<A>>();
+        Iterator<A> itr = sortedNodes.iterator();
         while(itr.hasNext()){//add the name of node into string result
-            result = result + " "+itr.next();
+            result.add(new Node<A>(itr.next()));
         }
         return result;
 
@@ -163,22 +166,23 @@ public class Graph {
     }
 
     /**
-     * return a list of string[] consisting of names of children nodes of the given parent.
+     * return a list of A[] consisting of names of children nodes of the given parent.
      * @param parent node that is parent
      * @return a list of string[] consisting of names of children nodes of the given parent.
      * each string[] has two elements: name of child node in index0, name of edge in index 1
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
-    public List<String[]> listChildren(String parent){
+    public List<String[]> listChildren(A parent){
         if(!this.containsNode(parent)){
             throw new IllegalArgumentException();
         }
+        Map<Node<A>,TreeSet<Edge<A,B>>> result = new TreeMap<Node<A>,TreeSet<Edge<A,B>>>();
         Set<String> children = new TreeSet<>();
-        Node node = new Node(parent);
+        Node<A> node = new Node<A>(parent);
 
-        for(Edge ed: graph.get(node)){ // add the name of children associated with its edge
+        for(Edge<A,B> ed: graph.get(node)){ // add the name of children associated with its edge
                                        //to a TreeSet
-            children.add(ed.getChild().getName()+" "+ed.getName());
+            children.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
         }
         List<String[]> result = new ArrayList<String[]>();
         Iterator<String> itr = children.iterator();
@@ -198,8 +202,8 @@ public class Graph {
      * @param parent the name of parent node that the edge start from
      * @return a list of edge that starts from parent node
      */
-    public List<Edge> get(String parent){
-        return graph.get(new Node(parent));
+    public List<Edge<A,B>> get(A parent){
+        return graph.get(new Node<A>(parent));
     }
 
     /**
@@ -207,7 +211,7 @@ public class Graph {
      * @param parent the node that edge starts from
      * @return a list of edge that starts from parent node
      */
-    public List<Edge> get(Node parent){
+    public List<Edge<A,B>> get(Node parent){
         return graph.get(parent);
     }
 
@@ -217,12 +221,12 @@ public class Graph {
      * <b>Node</b> represent an <b>immutable</b> location. It takes a name of
      * location and store that location as Node object.
      */
-    public static class Node {
+    public static class Node<A>{
         // Rep invariant: name != null
         //AF(this) = a node with name this.name
 
         // the name of the node
-        public final String name;
+        public final A name;
 
         /**
          * throw exception if rep invariant is violated.
@@ -236,7 +240,7 @@ public class Graph {
          * construct a new Node with name
          * @param name name of location
          */
-        public Node(String name){
+        public Node(A name){
             this.name = name;
             checkRep();
         }
@@ -245,7 +249,7 @@ public class Graph {
          * return the name of the node
          * @return name of the node
          */
-        public String getName(){
+        public A getName(){
             return name;
         }
 
@@ -259,17 +263,16 @@ public class Graph {
             if(!(o instanceof Node)){
                 return false;
             }
-            Node n = (Node) o;
+            Node<?> n = (Node<?>) o;
             return this.name.equals(n.name);
         }
 
         /**
-         * return the length of the name as hashcode of node.
-         * @return the length of the name as hashcode of node.
+         * @return the hashcode of name as hashcode of node
          */
         @Override
         public int hashCode(){
-            return name.length();
+            return name.hashCode();
         }
 
 
@@ -281,17 +284,16 @@ public class Graph {
      * The location that the edge starts from is parent, and the location that the edge
      * end with is child.
      */
-
-    public static class Edge {
+    public static class Edge<X,Y> {
         //rep invariant: parent != null && child != null && label!= null
         //AF(this) = an edge starts from this.parent to this.child with name this.label
 
         // the parent node
-        private final Node parent;
+        private final Node<X> parent;
         // the child node
-        private final Node child;
+        private final Node<X> child;
         //the name of the edge
-        private final String label;
+        private final Y label;
 
         /**
          * throw exception if rep variant is violated.
@@ -307,9 +309,9 @@ public class Graph {
          * @param child the edge ends with
          * @param label the edge's name
          */
-        public Edge(String parent,String child,String label){
-            this.parent = new Node(parent);
-            this.child = new Node(child);
+        public Edge(X parent,X child,Y label){
+            this.parent = new Node<X>(parent);
+            this.child = new Node<X>(child);
             this.label = label;
             checkRep();
         }
@@ -318,7 +320,7 @@ public class Graph {
          * return the name of the edge
          * @return the name of given edge
          */
-        public String getName(){
+        public Y getName(){
             return label;
         }
 
@@ -326,7 +328,7 @@ public class Graph {
          * return the parent node the edge
          * @return the parent node of the edge
          */
-        public Node getParent(){
+        public Node<X> getParent(){
         return parent;
     }
 
@@ -334,18 +336,18 @@ public class Graph {
      * return the child node of the edge
      * @return the child node of the edge
      */
-    public Node getChild(){
+    public Node<X> getChild(){
         return child;
     }
 
     /**
      *
-     * @return the sum of length of name of parent, child, and name of edge
+     * @return the sum of hashcode of parent, child, and label
      *          as hashCode of edge
      */
     @Override
     public int hashCode(){
-        return parent.hashCode()+child.hashCode()+label.length();
+        return parent.hashCode()+child.hashCode()+label.hashCode();
     }
 
     /**
@@ -359,10 +361,18 @@ public class Graph {
         if(!(o instanceof Edge)){
             return false;
         }
-        Edge n = (Edge) o;
+        Edge<?,?> n = (Edge<?,?>) o;
         return parent.equals(n.parent) && child.equals(n.child) && label.equals(n.label);
     }
 }
+    import java.util.Comparator;
+    public class NodeComparator implements Comparator<Node<A>>{
+        @Override
+        public int compare(Node<A> x,Node<A> y){
+            return String.
+        }
+
+    }
 
 
 }
