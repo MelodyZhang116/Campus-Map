@@ -11,11 +11,19 @@
 
 package pathfinder;
 
+import graph.Graph;
 import pathfinder.datastructures.Path;
+import pathfinder.parser.CampusPathsParser;
 
 import java.util.Map;
 
 public class CampusMap implements ModelAPI {
+    private Graph<double[],Double> graph;
+    public CampusMap(){
+        graph = new Graph<double[],Double>();
+        CampusPathsParser parser = new CampusPathsParser();
+
+    }
 
     @Override
     public boolean shortNameExists(String shortName) {
