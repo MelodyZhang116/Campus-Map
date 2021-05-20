@@ -30,10 +30,10 @@ import java.util.Map;
  * This class implements a test driver that uses a script file format
  * to test an implementation of Dijkstra's algorithm on a graph.
  */
-public class PathfinderTestDriver<A> {
+public class PathfinderTestDriver {
     private final PrintWriter output;
     private final BufferedReader input;
-    private final Map<String, Graph<A,Double>> graph = new HashMap<String,Graph<A,Double>>();
+    private final Map<String, Graph<String,Double>> graph = new HashMap<String,Graph<String,Double>>();
 
     /**
      * @spec.requires r != null && w != null
@@ -85,8 +85,8 @@ public class PathfinderTestDriver<A> {
                 case "AddEdge":
                     addEdge(arguments);
                     break;
-                case "ListNodes":
-                    listNodes(arguments);
+                case "FindPath":
+                    FindPath(arguments);
                     break;
                 case "ListChildren":
                     listChildren(arguments);
@@ -119,7 +119,7 @@ public class PathfinderTestDriver<A> {
     }
 
     private void listChildren(List<String> arguments) {
-        if(arguments.size() != 2) {
+        if (arguments.size() != 2) {
             throw new CommandException("Bad arguments to ListChildren: " + arguments);
         }
 
@@ -127,34 +127,131 @@ public class PathfinderTestDriver<A> {
         String parentName = arguments.get(1);
         listChildren(graphName, parentName);
     }
-
     private void listChildren(String graphName, String parentName) {
 
-        Graph<A,Double> g = graph.get(graphName);
+        Graph<String,Double> g = graph.get(graphName);
         output.print("the children of "+parentName+" in "+graphName+" are:");
-        List<Graph.Edge<A,Double>> children1 = g.listChildrenWithString(parentName);
-        Comparator<Graph.Edge<A,Double>> comparator= new CostComparatorOfEdge();
-        Queue<Graph.Edge<A,Double>> sorted = new PriorityQueue<Path<Graph.Node<A>>>(comparator);
-        // Each element is an edge
-        // A edge's priority in the queue is the cost of the edge
-        if(!sorted.isEmpty()){
-            for(Graph.Edge<A,Double> ed:sorted){
-                output.print(" "+ed.getChild().getName().toString()+"("+"%.3f",ed.getName().doubleValue()+")");
-            }
+        List<Graph.Edge<String,Double>> children = g.listChildren(parentName);
+        List<String[]> sorted = convert(children);
+        for(String[] str:sorted){
+            output.println(" "+str[0]+"("+String.format("%.3f",Double.valueOf(str[1]))+")");
         }
-        output.println();
+
+
     }
-    public class CostComparatorOfEdge implements Comparator<Graph.Edge<A,Double>>{
-        @Override
-        public int compare(Path<Graph.Node<A>> x,Path<Graph.Node<A>> y ){
-            if(x.getCost()<y.getCost()){
-                return -1;
-            }
-            if(x.getCost()>y.getCost()){
-                return 1;
-            }
-            return 0;
+    private List<String[]> convert(List<Graph.Edge<String,Double>> list){
+        Set<String> sorted = new TreeSet<>();
+        for(Graph.Edge<String,Double> ed:list){
+            sorted.add(ed.getChild().getName()+" "+ed.getName().toString());
         }
+        List<String[]> result = new ArrayList<String[]>();
+        Iterator<String> itr = sorted.iterator();
+        while(itr.hasNext()){ // add the names into string result
+            String nextChild = itr.next();
+            int index = nextChild.indexOf(" ");
+            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
+            result.add(childToAdd);
+
+        }
+        return result;
+
+
+    }
+
+    private void createGraph(List<String> arguments) {
+        if(arguments.size() != 1) {
+            throw new CommandException("Bad arguments to CreateGraph: " + arguments);
+        }
+
+        String graphName = arguments.get(0);
+        createGraph(graphName);
+    }
+
+    private void createGraph(String graphName) {
+
+        graph.put(graphName, new Graph<String,Double>());
+        output.println("created graph "+graphName);
+    }
+    private void addNode(List<String> arguments) {
+        if(arguments.size() != 2) {
+            throw new CommandException("Bad arguments to AddNode: " + arguments);
+        }
+
+        String graphName = arguments.get(0);
+        String nodeName = arguments.get(1);
+
+        addNode(graphName, nodeName);
+    }
+
+    private void addNode(String graphName, String nodeName) {
+
+        Graph<String,Double> g = graph.get(graphName);
+        g.insertNode(nodeName);
+        output.println("added node "+nodeName+" to "+graphName);
+    }
+
+
+
+    private void FindPath(List<String> arguments){
+        if(arguments.size() != 3){
+            throw new CommandException("Bad arguments to FindPath: "+ arguments);
+        }
+        String graphName = arguments.get(0);
+        String start = arguments.get(1);
+        String destination = arguments.get(2);
+        FindPath(graphName,start,destination);
+    }
+
+    private void FindPath(String graphName, String start, String destination){
+        Graph<String,Double> g= graph.get(graphName);
+        if(!g.containsNode(start) || !g.containsNode(destination)){
+            if(!g.containsNode(start)){
+                output.println("unknown: "+start);
+            }
+            if(!g.containsNode(destination)){
+                output.println("unknown: "+destination);
+            }
+        }else {
+            output.println("path from " + start + " to " + destination + ":");
+            try {
+                PathFinder<String,Double> pathFinding = new PathFinder<String,Double>(g);
+
+                Path<Graph.Node<String>> paths = pathFinding.findPath(start, destination);
+                Iterator<Path<Graph.Node<String>>.Segment> iterator = paths.iterator();
+                double sumCost = 0.0;
+                while(iterator.hasNext()){
+                    Path<Graph.Node<String>>.Segment seg= iterator.next();
+                    output.println(seg.getStart().getName()+ " to "+seg.getEnd().getName()+
+                            " with weight "+String.format("%.3f",seg.getCost()));
+                    sumCost+=seg.getCost();
+                }
+                output.println("total cost: "+String.format("%.3f",sumCost));
+
+            } catch (RuntimeException r) {
+                output.println("no path found");
+            }
+        }
+
+    }
+    private void addEdge(List<String> arguments) {
+        if(arguments.size() != 4) {
+            throw new CommandException("Bad arguments to AddEdge: " + arguments);
+        }
+
+        String graphName = arguments.get(0);
+        String parentName = arguments.get(1);
+        String childName = arguments.get(2);
+        String edgeLabel = arguments.get(3);
+
+        addEdge(graphName, parentName, childName, Double.valueOf(edgeLabel));
+    }
+
+    private void addEdge(String graphName, String parentName, String childName,
+                         Double edgeLabel) {
+
+        Graph<String,Double> g = graph.get(graphName);
+        g.insertEdge(parentName,childName,Double.valueOf(edgeLabel));
+        output.println("added edge "+String.format("%.3f",edgeLabel)+" from "+parentName+" to "+childName+" in "+graphName);
     }
 
 

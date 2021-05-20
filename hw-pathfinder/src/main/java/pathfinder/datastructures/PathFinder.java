@@ -13,6 +13,9 @@ public class PathFinder<A,Number> {
         g = graph;
     }
     public Path<Graph.Node<A>> findPath(A starting, A destination){
+        if(!g.containsNode(starting) || !g.containsNode(destination)){
+            throw new IllegalArgumentException();
+        }
         Graph.Node<A> start = new Graph.Node<A>(starting);
         Graph.Node<A> dest = new Graph.Node<A>(destination);
 
@@ -30,7 +33,7 @@ public class PathFinder<A,Number> {
             }
             if(!finished.contains(minDest)){
                 for(Graph.Edge<A,Double> ed:g.listChildren(minDest.getName())){
-                    if(finished.contains(ed.getChild())){
+                    if(!finished.contains(ed.getChild())){
                         Path<Graph.Node<A>> newPath = minPath.extend(ed.getChild(),ed.getName());
                         active.add(newPath);
                     }

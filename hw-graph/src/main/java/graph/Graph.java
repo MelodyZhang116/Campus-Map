@@ -188,30 +188,10 @@ public class Graph<A,B> {
 
     /**
      * return a list of A[] consisting of names of children nodes of the given parent.
-     * @param parent node that is parent
-     * @return a list of edge consisting of names of children nodes of the given parent.
-     * @throws IllegalArgumentException if parent is not contained in the graph
+     * @param list
+     * @return
      */
-    public List<Edge<A,B>> listChildrenWithString(String parent){
-        Node<A> parentNode = null;
-        for(Node<A> node: this.graph.keySet()){
-            if(node.getName().toString().equals(parent)){
-                parentNode = node;
-            }
-        }
-        if(!this.containsNode(parentNode.getName())){
-            throw new IllegalArgumentException();
-        }
-        Node<A> node = new Node<A>(parentNode.getName());
-        List<Edge<A,B>> result = new ArrayList<Edge<A,B>>();
-        for(Edge<A,B> ed:graph.get(node)){
-            result.add(ed);
-        }
-        return result;
 
-
-
-    }
     public List<String[]> convert(List<Edge<A,B>> list){
         Set<String> sorted = new TreeSet<>();
         for(Edge<A,B> ed:list){

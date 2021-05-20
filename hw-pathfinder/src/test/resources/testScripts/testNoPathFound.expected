@@ -1,0 +1,15 @@
+# test finding the path which does not exist
+
+created graph g
+
+added node n1 to g
+added node n2 to g
+added node n3 to g
+added edge 100.000 from n1 to n2 in g
+
+path from n1 to n2:
+n1 to n2 with weight 100.000
+total cost: 100.000
+
+path from n1 to n3:
+no path found

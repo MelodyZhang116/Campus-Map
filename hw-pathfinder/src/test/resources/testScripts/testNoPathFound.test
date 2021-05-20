@@ -1,0 +1,12 @@
+# test finding the path which does not exist
+
+CreateGraph g
+
+AddNode g n1
+AddNode g n2
+AddNode g n3
+AddEdge g n1 n2 100
+
+FindPath g n1 n2
+
+FindPath g n1 n3
