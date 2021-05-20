@@ -188,12 +188,31 @@ public class GraphTestDriver {
         String parentName = arguments.get(1);
         listChildren(graphName, parentName);
     }
+    public <A,B> List<String[]> convert(List<Graph.Edge<A,B>> list){
+        Set<String> sorted = new TreeSet<>();
+        for(Graph.Edge<A,B> ed:list){
+            sorted.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
+        }
+        List<String[]> result = new ArrayList<String[]>();
+        Iterator<String> itr = sorted.iterator();
+        while(itr.hasNext()){ // add the names into string result
+            String nextChild = itr.next();
+            int index = nextChild.indexOf(" ");
+            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
+            result.add(childToAdd);
 
+        }
+        return result;
+
+
+    }
     private void listChildren(String graphName, String parentName) {
 
         Graph<String,String> g = graphs.get(graphName);
         output.print("the children of "+parentName+" in "+graphName+" are:");
-        List<String[]> children = g.listChildren(parentName);
+        List<Graph.Edge<String,String>> children1 = g.listChildren(parentName);
+        List<String[]> children = convert(children1);
+
         if(!children.isEmpty()){
             for(String[] childEdge:children){
                 output.print(" "+childEdge[0]+"("+childEdge[1]+")");

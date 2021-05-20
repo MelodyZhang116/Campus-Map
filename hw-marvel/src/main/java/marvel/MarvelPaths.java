@@ -133,7 +133,7 @@ public class MarvelPaths {
      * each string[] has two elements: name of character name in index0, name of book in index 1
      * @throws IllegalArgumentException if parent is not contained
      */
-    public List<String[]> listChildren(String parent){
+    public List<Edge<String,String>> listChildren(String parent){
         return g.listChildren(parent);
     }
 
@@ -189,10 +189,10 @@ public class MarvelPaths {
                 return map.get(nodeVisiting); // find the path!
             }
 
-            List<String[]> sortedEdge= g.listChildren(nodeVisiting.getName()); //get the children of that node which is visited in sorted order
-            for(String[] childAndEdge :sortedEdge){
-                Node<String> child = new Node<String>(childAndEdge[0]);
-                Edge<String,String> edge = new Edge<String,String>(nodeVisiting.getName(),childAndEdge[0],childAndEdge[1]);
+            List<Edge<String,String>> sortedEdge= g.listChildren(nodeVisiting.getName()); //get the children of that node which is visited in sorted order
+            for(Edge<String,String> childAndEdge :sortedEdge){
+                Node<String> child = childAndEdge.getChild();
+                Edge<String,String> edge = childAndEdge;
                 if(!map.containsKey(child)){ //that child has not been visited
                     List<Edge<String,String>> path = new ArrayList<>(map.get(nodeVisiting));
                     path.add(edge);

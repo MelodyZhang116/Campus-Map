@@ -4,8 +4,7 @@ import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -48,7 +47,9 @@ public class GraphTest {
             nodes = nodes+" "+node.getName();
         }
         String children = "";
-        for(String[] child: a.listChildren("def")){
+        List<Graph.Edge<String,String>> chi1 = a.listChildren("def");
+        List<String[]> sorted = convert(chi1);
+        for(String[] child: sorted){
             children = children + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" abc def hijk",nodes);
@@ -58,7 +59,9 @@ public class GraphTest {
             nodes1 = nodes1+" "+node.getName();
         }
         String children1 = "";
-        for(String[] child: b.listChildren("xyz")){
+        List<Graph.Edge<String,String>> chi2 = b.listChildren("xyz");
+        List<String[]> sorted2 = convert(chi2);
+        for(String[] child: sorted2){
             children1 = children1 + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" lmn opq xyz",nodes1);
@@ -69,7 +72,9 @@ public class GraphTest {
             nodes2 = nodes2+" "+node.getName();
         }
         String children2 = "";
-        for(String[] child: a.listChildren("def")){
+        List<Graph.Edge<String,String>> chi3 = a.listChildren("def");
+        List<String[]> sorted3 = convert(chi3);
+        for(String[] child: sorted3){
             children2 = children2 + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" abc def hijk",nodes2);
@@ -78,7 +83,9 @@ public class GraphTest {
         b.removeEdge("xyz","lmn","l1");
 
         String children3 = "";
-        for(String[] child: b.listChildren("xyz")){
+        List<Graph.Edge<String,String>> chi4 = b.listChildren("xyz");
+        List<String[]> sorted4 = convert(chi4);
+        for(String[] child: sorted4){
             children3 = children3 + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" lmn(zzz) opq(haha) xyz(wow)",children3);
@@ -89,7 +96,9 @@ public class GraphTest {
             nodes4 = nodes4+" "+node.getName();
         }
         String children4 = "";
-        for(String[] child: a.listChildren("hijk")){
+        List<Graph.Edge<String,String>> chi5 = a.listChildren("hijk");
+        List<String[]> sorted5 = convert(chi5);
+        for(String[] child: sorted5){
             children4 = children4 + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" def hijk",nodes4);
@@ -100,11 +109,37 @@ public class GraphTest {
             nodes5 = nodes5+" "+node.getName();
         }
         String children5 = "";
-        for(String[] child: b.listChildren("xyz")){
+        List<Graph.Edge<String,String>> chi6 = b.listChildren("xyz");
+        List<String[]> sorted6 = convert(chi6);
+        for(String[] child: sorted6){
             children5 = children5 + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals(" lmn xyz",nodes5);
         assertEquals(" lmn(l1) lmn(zzz) xyz(wow)",children5);
+
+
+    }
+
+    /**
+     * convert list of children from List<Graph.Egde<A,B> to List<String[]>
+     * @param list of children
+     * @return List<String[]> that is sorted into alphabetical order.
+     */
+    public <A,B> List<String[]> convert(List<Graph.Edge<A,B>> list){
+        Set<String> sorted = new TreeSet<>();
+        for(Graph.Edge<A,B> ed:list){
+            sorted.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
+        }
+        List<String[]> result = new ArrayList<String[]>();
+        Iterator<String> itr = sorted.iterator();
+        while(itr.hasNext()){ // add the names into string result
+            String nextChild = itr.next();
+            int index = nextChild.indexOf(" ");
+            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
+            result.add(childToAdd);
+
+        }
+        return result;
 
 
     }
@@ -166,7 +201,9 @@ public class GraphTest {
             nodes = nodes+" "+node.getName();
         }
         String children = "";
-        for(String[] child: g.listChildren("n2")){
+        List<Graph.Edge<String,String>> children1 = g.listChildren("n2");
+        List<String[]> sorted = convert(children1);
+        for(String[] child: sorted){
             children = children + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals("remove node incorrectly because nodes are incorrect"," n2",nodes);
@@ -197,7 +234,9 @@ public class GraphTest {
         g.removeEdge("n2","n1","e1");
 
         String children = "";
-        for(String[] child: g.listChildren("n2")){
+        List<Graph.Edge<String,String>> children1 = g.listChildren("n2");
+        List<String[]> sorted = convert(children1);
+        for(String[] child: sorted){
             children = children + " "+ child[0]+"("+child[1]+")";
         }
         assertEquals("remove edge incorrectly","",children);
@@ -280,7 +319,9 @@ public class GraphTest {
         Graph<String,String> g = new Graph<String,String>();
         g.insertNode("n1");
         g.insertNode("n2");
-        List<String[]> result = g.listChildren("n3");
+        List<Graph.Edge<String,String>> children1 = g.listChildren("n3");
+        List<String[]> sorted = convert(children1);
+
 
     }
 

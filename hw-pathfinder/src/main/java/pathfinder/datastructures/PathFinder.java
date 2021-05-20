@@ -4,10 +4,12 @@ import graph.Graph;
 
 import java.util.*;
 
-public class Dijkstra<A,B> {
-    Graph<A,B> g;
 
-    public Dijkstra(Graph<A,B> graph){
+
+public class PathFinder<A,Number> {
+    Graph<A,Double> g;
+
+    public PathFinder(Graph<A,Double> graph){
         g = graph;
     }
     public Path<Graph.Node<A>> findPath(A starting, A destination){
@@ -26,12 +28,22 @@ public class Dijkstra<A,B> {
             if(minDest.equals(dest)){
                 return minPath;
             }
-            if(finished.contains(minDest)){
-                for(//TODO)
+            if(!finished.contains(minDest)){
+                for(Graph.Edge<A,Double> ed:g.listChildren(minDest.getName())){
+                    if(finished.contains(ed.getChild())){
+                        Path<Graph.Node<A>> newPath = minPath.extend(ed.getChild(),ed.getName());
+                        active.add(newPath);
+                    }
+
+                }
+                finished.add(minDest);
 
 
             }
+
         }
+        throw new RuntimeException("No path exist from "+starting.toString()+" to "+destination.toString());
+
     }
 
 

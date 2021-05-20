@@ -168,24 +168,57 @@ public class Graph<A,B> {
     /**
      * return a list of A[] consisting of names of children nodes of the given parent.
      * @param parent node that is parent
-     * @return a list of string[] consisting of names of children nodes of the given parent.
-     * each string[] has two elements: name of child node in index0, name of edge in index 1
+     * @return a list of edge consisting of names of children nodes of the given parent.
      * @throws IllegalArgumentException if parent is not contained in the graph
      */
-    public List<String[]> listChildren(A parent){
+    public List<Edge<A,B>> listChildren(A parent){
         if(!this.containsNode(parent)){
             throw new IllegalArgumentException();
         }
-        Map<Node<A>,TreeSet<Edge<A,B>>> result = new TreeMap<Node<A>,TreeSet<Edge<A,B>>>();
-        Set<String> children = new TreeSet<>();
         Node<A> node = new Node<A>(parent);
+        List<Edge<A,B>> result = new ArrayList<Edge<A,B>>();
+        for(Edge<A,B> ed:graph.get(node)){
+            result.add(ed);
+        }
+        return result;
 
-        for(Edge<A,B> ed: graph.get(node)){ // add the name of children associated with its edge
-                                       //to a TreeSet
-            children.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
+
+
+    }
+
+    /**
+     * return a list of A[] consisting of names of children nodes of the given parent.
+     * @param parent node that is parent
+     * @return a list of edge consisting of names of children nodes of the given parent.
+     * @throws IllegalArgumentException if parent is not contained in the graph
+     */
+    public List<Edge<A,B>> listChildrenWithString(String parent){
+        Node<A> parentNode = null;
+        for(Node<A> node: this.graph.keySet()){
+            if(node.getName().toString().equals(parent)){
+                parentNode = node;
+            }
+        }
+        if(!this.containsNode(parentNode.getName())){
+            throw new IllegalArgumentException();
+        }
+        Node<A> node = new Node<A>(parentNode.getName());
+        List<Edge<A,B>> result = new ArrayList<Edge<A,B>>();
+        for(Edge<A,B> ed:graph.get(node)){
+            result.add(ed);
+        }
+        return result;
+
+
+
+    }
+    public List<String[]> convert(List<Edge<A,B>> list){
+        Set<String> sorted = new TreeSet<>();
+        for(Edge<A,B> ed:list){
+            sorted.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
         }
         List<String[]> result = new ArrayList<String[]>();
-        Iterator<String> itr = children.iterator();
+        Iterator<String> itr = sorted.iterator();
         while(itr.hasNext()){ // add the names into string result
             String nextChild = itr.next();
             int index = nextChild.indexOf(" ");
@@ -194,6 +227,7 @@ public class Graph<A,B> {
 
         }
         return result;
+
 
     }
 
@@ -365,14 +399,7 @@ public class Graph<A,B> {
         return parent.equals(n.parent) && child.equals(n.child) && label.equals(n.label);
     }
 }
-    import java.util.Comparator;
-    public class NodeComparator implements Comparator<Node<A>>{
-        @Override
-        public int compare(Node<A> x,Node<A> y){
-            return String.
-        }
 
-    }
 
 
 }
