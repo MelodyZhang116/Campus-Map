@@ -13,6 +13,9 @@ package pathfinder.scriptTestRunner;
 
 import graph.Graph;
 import marvel.MarvelPaths;
+import pathfinder.datastructures.Path;
+import pathfinder.datastructures.PathFinder;
+
 import java.io.*;
 import java.util.*;
 
@@ -124,37 +127,34 @@ public class PathfinderTestDriver<A> {
         String parentName = arguments.get(1);
         listChildren(graphName, parentName);
     }
-    public <A,Double> List<String[]> convert(List<Graph.Edge<A,Double>> list){
-        Set<String> sorted = new TreeSet<>();
-        for(Graph.Edge<A,Double> ed:list){
-            sorted.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
-        }
-        List<String[]> result = new ArrayList<String[]>();
-        Iterator<String> itr = sorted.iterator();
-        while(itr.hasNext()){ // add the names into string result
-            String nextChild = itr.next();
-            int index = nextChild.indexOf(" ");
-            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
-            result.add(childToAdd);
 
-        }
-        return result;
-
-
-    }
     private void listChildren(String graphName, String parentName) {
 
         Graph<A,Double> g = graph.get(graphName);
         output.print("the children of "+parentName+" in "+graphName+" are:");
         List<Graph.Edge<A,Double>> children1 = g.listChildrenWithString(parentName);
-        List<String[]> children = convert(children1);
-
-        if(!children.isEmpty()){
-            for(String[] childEdge:children){
-                output.print(" "+childEdge[0]+"("+childEdge[1]+")");
+        Comparator<Graph.Edge<A,Double>> comparator= new CostComparatorOfEdge();
+        Queue<Graph.Edge<A,Double>> sorted = new PriorityQueue<Path<Graph.Node<A>>>(comparator);
+        // Each element is an edge
+        // A edge's priority in the queue is the cost of the edge
+        if(!sorted.isEmpty()){
+            for(Graph.Edge<A,Double> ed:sorted){
+                output.print(" "+ed.getChild().getName().toString()+"("+"%.3f",ed.getName().doubleValue()+")");
             }
         }
         output.println();
+    }
+    public class CostComparatorOfEdge implements Comparator<Graph.Edge<A,Double>>{
+        @Override
+        public int compare(Path<Graph.Node<A>> x,Path<Graph.Node<A>> y ){
+            if(x.getCost()<y.getCost()){
+                return -1;
+            }
+            if(x.getCost()>y.getCost()){
+                return 1;
+            }
+            return 0;
+        }
     }
 
 
