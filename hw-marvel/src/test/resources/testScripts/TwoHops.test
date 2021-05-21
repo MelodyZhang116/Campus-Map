@@ -1,0 +1,4 @@
+LoadGraph marvel marvel.csv
+
+FindPath marvel INVISIBLE-WOMAN/SUE SABRA/RUTH-BAT-SERAP
+FindPath marvel SPIDER-MAN/PETER-PAR MR.-FANTASTIC/REED-R
