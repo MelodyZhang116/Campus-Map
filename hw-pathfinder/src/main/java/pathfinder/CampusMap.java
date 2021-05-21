@@ -23,9 +23,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class implements the ModelAPI interface. It contains all the information of UW campus
+ * including buildings and paths from building to building.
+ */
 public class CampusMap implements ModelAPI {
+    private static final boolean DEBUG = false;
+
+    //a graph that store the info of building and places on the road, and edge to connect them
     private Graph<Point,Double> graph;
+
+    // a list of building on campus
     private List<CampusBuilding> building;
+    // AF(this) = all buildings are store in this.building in form of CampusBuilding
+    //            all edges are stored in this.graph that its nodes are locations
+    //            and edge starting from one location to another, labeled with distance.
+    // RepInv:
+    // shortNameToBuilding != null &&
+    // forall pairs <shortname, buildings> in shortNameToBuilding, shortname != null && building != null &&
+    // graph != null && no edges in the map has negative edge weights
     public CampusMap(){
         graph = new Graph<Point,Double>();
         List<CampusPath> paths =  CampusPathsParser.parseCampusPaths("campus_paths.csv");
@@ -35,6 +51,8 @@ public class CampusMap implements ModelAPI {
             graph.insertNode(start);
             graph.insertNode(ending);
             graph.insertEdge(start,ending,path.getDistance());
+            graph.insertEdge(ending,start,path.getDistance());
+
         }
         building = CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
     }
@@ -70,8 +88,7 @@ public class CampusMap implements ModelAPI {
 
     @Override
     public  Path<Graph.Node<Point>> findShortestPath(String startShortName, String endShortName) {
-        // TODO: Implement this method exactly as it is specified in ModelAPI
-        if(startShortName.isEmpty()||endShortName.isEmpty()){
+        if(startShortName.isEmpty()||endShortName.isEmpty() ||startShortName ==null || endShortName==null){
             throw new IllegalArgumentException();
         }
         if(!this.shortNameExists(startShortName) ||!this.shortNameExists(endShortName)){
