@@ -1,2 +1,12 @@
 Briefly list any changes you made to your graph class during hw-pathfinder, and why you made those changes.
+I make it generic because it is required.
 
+I remove the IllegalArgumentException in insertNode method because I want it do nothing if the node
+already in graph. In dataset there are nodes inserted that are duplicates. To ensure that the program
+can run, I insert the node if the node does not exist, do nothing if the node exist.
+
+I remove the checking of duplicates in insertEdge method because it takes so long time. Instead, I put
+a @spec.requires at the top of that method, requiring the added edge does not exist before inserting.
+
+I changed the returned type of list children so that it no longer in sorting order. Sorting is in graphtestdriver.
+Because the algorithm in hw 7 does not require it in the normal way of sorting.

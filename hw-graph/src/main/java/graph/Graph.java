@@ -72,7 +72,6 @@ public class Graph<A,B> {
      * @param parent node that the edge starts from
      * @param child node that the edge ends with
      * @param label the name of the edge
-     * @throws IllegalArgumentException if the edge already exist
      * @spec.modifies this
      * @spec.requires the inserted edge does not exist before inserted
      * @spec.effects insert edge from parent to child to this
@@ -161,7 +160,7 @@ public class Graph<A,B> {
     }
 
     /**
-     * return a list of A[] consisting of names of children nodes of the given parent.
+     * return a list of Edge consisting of names of children nodes of the given parent.
      * @param parent node that is parent
      * @return a list of edge consisting of names of children nodes of the given parent.
      * @throws IllegalArgumentException if parent is not contained in the graph
@@ -181,30 +180,7 @@ public class Graph<A,B> {
 
     }
 
-    /**
-     * return a list of A[] consisting of names of children nodes of the given parent.
-     * @param list
-     * @return
-     */
 
-    public List<String[]> convert(List<Edge<A,B>> list){
-        Set<String> sorted = new TreeSet<>();
-        for(Edge<A,B> ed:list){
-            sorted.add(ed.getChild().getName().toString()+" "+ed.getName().toString());
-        }
-        List<String[]> result = new ArrayList<String[]>();
-        Iterator<String> itr = sorted.iterator();
-        while(itr.hasNext()){ // add the names into string result
-            String nextChild = itr.next();
-            int index = nextChild.indexOf(" ");
-            String[] childToAdd = new String[]{nextChild.substring(0,index),nextChild.substring(index+1)};
-            result.add(childToAdd);
-
-        }
-        return result;
-
-
-    }
 
     /**
      * return a list of edge that starts from parent node
