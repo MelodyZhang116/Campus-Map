@@ -116,7 +116,7 @@ public class CampusMap implements ModelAPI {
         CampusBuilding end = buildingWithShortName.get(endShortName);
         starting = new Point(start.getX(),start.getY());
 
-        ending = new Point(end.getX(),ending.getY());
+        ending = new Point(end.getX(),end.getY());
 
 
         PathFinder<Point,Number> path = new PathFinder<Point,Number>(graph);
