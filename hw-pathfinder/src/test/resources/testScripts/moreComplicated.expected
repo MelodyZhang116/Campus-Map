@@ -12,8 +12,10 @@ added edge 1.000 from A to B in complexGraph
 added edge 100.000 from B to E in complexGraph
 added edge 50.000 from C to D in complexGraph
 added edge 1.000 from D to E in complexGraph
+added edge 20.000 from A to C in complexGraph
 
 path from A to E:
+A to C with weight 20.000
 C to D with weight 50.000
-D to E with weight 2.000
-total cost: 52.000
+D to E with weight 1.000
+total cost: 71.000

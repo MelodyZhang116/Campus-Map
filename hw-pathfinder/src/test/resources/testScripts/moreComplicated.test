@@ -12,5 +12,6 @@ AddEdge complexGraph A B 1.0
 AddEdge complexGraph B E 100.0
 AddEdge complexGraph C D 50.0
 AddEdge complexGraph D E 1.0
+AddEdge complexGraph A C 20.0
 
 FindPath complexGraph A E

@@ -11,6 +11,7 @@
 
 package pathfinder.textInterface;
 
+import graph.Graph;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
 
@@ -138,19 +139,19 @@ public class TextInterfaceView {
      * @param end   The long name of the building at the end of the path.
      * @param path  The path to show to the user.
      */
-    public void showPath(String start, String end, Path<Point> path) {
+    public void showPath(String start, String end, Path<Graph.Node<Point>> path) {
         System.out.println("Path from " + start + " to " + end + ":");
-        for(Path<Point>.Segment pathSegment : path) {
-            Direction dir = Direction.resolveDirection(pathSegment.getStart().getX(),
-                                                       pathSegment.getStart().getY(),
-                                                       pathSegment.getEnd().getX(),
-                                                       pathSegment.getEnd().getY(),
+        for(Path<Graph.Node<Point>>.Segment pathSegment : path) {
+            Direction dir = Direction.resolveDirection(pathSegment.getStart().getName().getX(),
+                                                       pathSegment.getStart().getName().getY(),
+                                                       pathSegment.getEnd().getName().getX(),
+                                                       pathSegment.getEnd().getName().getY(),
                                                        CoordinateProperties.INCREASING_DOWN_RIGHT);
             System.out.printf("\tWalk %.0f feet %s to (%.0f, %.0f)",
                               pathSegment.getCost(),
                               dir.name(),
-                              pathSegment.getEnd().getX(),
-                              pathSegment.getEnd().getY());
+                              pathSegment.getEnd().getName().getX(),
+                              pathSegment.getEnd().getName().getY());
             System.out.println();
         }
         System.out.printf("Total distance: %.0f feet", path.getCost());

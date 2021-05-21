@@ -11,6 +11,7 @@
 
 package pathfinder.textInterface;
 
+import graph.Graph;
 import pathfinder.ModelAPI;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
@@ -129,12 +130,13 @@ public class TextInterfaceController implements InputHandler {
             view.basePrompt();
             return;
         }
-        Path<Point> path = model.findShortestPath(start, end);
+        Path<Graph.Node<Point>> path = model.findShortestPath(start, end);
         if(path == null) {
             // No path. This is guaranteed not to happen by the homework spec,
             // so let's fall on our face if it does.
             throw new IllegalStateException("No found path between " + start + " and " + end);
         }
+
         view.showPath(model.longNameForShort(start), model.longNameForShort(end), path);
         view.basePrompt();
     }

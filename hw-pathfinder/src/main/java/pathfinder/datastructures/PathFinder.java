@@ -12,6 +12,7 @@ public class PathFinder<A,Number> {
     public PathFinder(Graph<A,Double> graph){
         g = graph;
     }
+
     public Path<Graph.Node<A>> findPath(A starting, A destination){
         if(!g.containsNode(starting) || !g.containsNode(destination)){
             throw new IllegalArgumentException();
@@ -51,16 +52,17 @@ public class PathFinder<A,Number> {
 
 
 
-     public class CostComparator implements Comparator<Path<Graph.Node<A>>>{
-         @Override
-         public int compare(Path<Graph.Node<A>> x,Path<Graph.Node<A>> y ){
-             if(x.getCost()<y.getCost()){
-                 return -1;
-             }
-             if(x.getCost()>y.getCost()){
-                 return 1;
-             }
-             return 0;
-         }
-     }
+    public class CostComparator implements Comparator<Path<Graph.Node<A>>>{
+        @Override
+        public int compare(Path<Graph.Node<A>> x,Path<Graph.Node<A>> y ){
+            if(x.getCost()<y.getCost()){
+                return -1;
+            }
+            if(x.getCost()>y.getCost()){
+                return 1;
+            }
+            return 0;
+        }
+    }
 }
+

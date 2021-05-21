@@ -27,16 +27,11 @@ public class Graph<A,B> {
             assert (!graph.containsValue(null)) :"The graph has null edge(s)";
 
             for(List<Edge<A,B>> list:graph.values()){
-                for(int i = 0 ; i < list.size()-1 ; i++){
-                    assert(list.get(i) != null):"The graph has null edges";
-                    for(int j = i +1; j < list.size(); j++){
-                        assert(!list.get(i).equals(list.get(j))):"The parent node " + list.get(i).getParent()+
-                                " and the child node " + list.get(i).getChild() + " have duplicate edges "+list.get(i).getName();
-                    }
+                for(Edge<A,B> ed:list){
+                    assert(ed != null):"The graph has null edges";
+
                 }
-                if(list.size()>0) {
-                    assert (list.get(list.size() - 1) != null) : "The graph has null edges";
-                }
+
             }
         }
     }
@@ -80,19 +75,20 @@ public class Graph<A,B> {
      * @param label the name of the edge
      * @throws IllegalArgumentException if the edge already exist
      * @spec.modifies this
+     * @spec.requires the inserted edge does not exist before inserted
      * @spec.effects insert edge from parent to child to this
      */
     public void insertEdge(A parent,A child,B label){
         Edge<A,B> ed = new Edge<A,B>(parent,child,label);
-        if(!graph.containsKey(new Node<A>(parent))){
+        if(!this.containsNode(parent)){
             this.insertNode(parent);
-        }else if(!graph.containsKey(new Node<A>(child))){
+        }
+        if(!this.containsNode(child)){
             this.insertNode(child);
         }
-        if(!graph.get(ed.getParent()).contains(ed)){
             graph.get(ed.getParent()).add(ed);
 
-        }
+
         checkRep();
     }
 
