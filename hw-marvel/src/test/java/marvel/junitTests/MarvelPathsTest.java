@@ -17,6 +17,10 @@ public class MarvelPathsTest {
         new MarvelPaths("file not exist");
         new MarvelPaths("fileNotExist.csv");
     }
+    @Test(expected=IOException.class)
+    public void fileEmpty() throws IOException{
+        new MarvelPaths("");
+    }
     @Test(expected=IllegalArgumentException.class)
     public void PathFindingWithInvalidParentOrChild() throws IOException {
         MarvelPaths graph = new MarvelPaths("staffSuperheroes.csv");
