@@ -36,7 +36,7 @@ public class CampusMap implements ModelAPI {
             graph.insertNode(ending);
             graph.insertEdge(start,ending,path.getDistance());
         }
-        building = CampusPathsParser.parseCampusBuildings("campus_paths.csv");
+        building = CampusPathsParser.parseCampusBuildings("campus_buildings.csv");
     }
 
     @Override

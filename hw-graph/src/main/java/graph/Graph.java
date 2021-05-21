@@ -60,9 +60,9 @@ public class Graph<A,B> {
      * @spec.effects add node to this
      */
     public void insertNode(A node){
-        if(this.containsNode(node)){
-            throw new IllegalArgumentException();
-        }
+//        if(this.containsNode(node)){
+//            throw new IllegalArgumentException();
+//        }
         graph.put(new Node<A>(node),new ArrayList<Edge<A,B>>());
         checkRep();
     }
