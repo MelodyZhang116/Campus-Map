@@ -39,8 +39,8 @@ public class CampusMap implements ModelAPI {
     //            all edges are stored in this.graph that its nodes are locations
     //            and edge starting from one location to another, labeled with distance.
     // RepInv:
-    // shortNameToBuilding != null &&
-    // forall pairs <shortname, buildings> in shortNameToBuilding, shortname != null && building != null &&
+    // building != null &&
+    // each CampusBuilding in building!= null  &&
     // graph != null && no edges in the map has negative edge weights
     public CampusMap(){
         graph = new Graph<Point,Double>();
