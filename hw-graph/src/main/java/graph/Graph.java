@@ -53,18 +53,17 @@ public class Graph<A,B> {
         return graph.values();
     }
     /**
-     * Add a node to the graph.
+     * Add a node to the graph. If the node already exist, then do nothing.
      * @param node with name node to be added
-     * @throws IllegalArgumentException if node is already in the graph
      * @spec.modifies this
      * @spec.effects add node to this
      */
     public void insertNode(A node){
-//        if(this.containsNode(node)){
-//            throw new IllegalArgumentException();
-//        }
-        graph.put(new Node<A>(node),new ArrayList<Edge<A,B>>());
-        checkRep();
+        if(!this.containsNode(node)) {
+
+            graph.put(new Node<A>(node), new ArrayList<Edge<A, B>>());
+            checkRep();
+        }
     }
 
     /**
