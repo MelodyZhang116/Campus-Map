@@ -21,4 +21,3 @@ FindPath g y x
 
 FindPath g x x
 
-FindPath g n1 n1

@@ -42,6 +42,10 @@ public class CampusMap implements ModelAPI {
     // building != null &&
     // each CampusBuilding in building!= null  &&
     // graph != null && no edges in the map has negative edge distance
+
+    /**
+     * check rep invariant
+     */
     private void checkRep(){
         if(DEBUG) {
             assert (buildingWithShortName != null) : "list of building is null";

@@ -1,4 +1,4 @@
-# includes a more complicated graph to test whether it can find the shortest path
+# test that one graph with multiple path finding. Those paths will not interact with each other.
 
 CreateGraph complexGraph
 
@@ -13,5 +13,10 @@ AddEdge complexGraph B E 100.0
 AddEdge complexGraph C D 50.0
 AddEdge complexGraph D E 1.0
 AddEdge complexGraph A C 20.0
+AddEdge complexGraph B A 75.8333333333
+AddEdge complexGraph B C 13.13133
+AddEdge complexGraph B D 57.1
 
+FindPath complexGraph A E
+FindPath complexGraph B E
 FindPath complexGraph A E

@@ -1,0 +1,33 @@
+# test that one graph with multiple path finding. Those paths will not interact with each other.
+
+created graph complexGraph
+
+added node A to complexGraph
+added node B to complexGraph
+added node C to complexGraph
+added node D to complexGraph
+added node E to complexGraph
+
+added edge 1.000 from A to B in complexGraph
+added edge 100.000 from B to E in complexGraph
+added edge 50.000 from C to D in complexGraph
+added edge 1.000 from D to E in complexGraph
+added edge 20.000 from A to C in complexGraph
+added edge 75.833 from B to A in complexGraph
+added edge 13.131 from B to C in complexGraph
+added edge 57.100 from B to D in complexGraph
+
+path from A to E:
+A to B with weight 1.000
+B to D with weight 57.100
+D to E with weight 1.000
+total cost: 59.100
+path from B to E:
+B to D with weight 57.100
+D to E with weight 1.000
+total cost: 58.100
+path from A to E:
+A to B with weight 1.000
+B to D with weight 57.100
+D to E with weight 1.000
+total cost: 59.100

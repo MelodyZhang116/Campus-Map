@@ -1,0 +1,10 @@
+# test a path that start from a node and end with the same node.
+
+CreateGraph g
+
+AddNode g n1
+AddNode g n2
+AddNode g n3
+AddEdge g n1 n2 135.798463321
+
+FindPath g n1 n1
