@@ -42,19 +42,19 @@ public class CampusMap implements ModelAPI {
     // building != null &&
     // each CampusBuilding in building!= null  &&
     // graph != null && no edges in the map has negative edge distance
-//    private void checkRep(){
-//        if(DEBUG) {
-//            assert (building != null) : "list of building is null";
-//            for (CampusBuilding buil : building) {
-//                assert (buil != null) : "building is null";
-//            }
-//            for (List<Graph.Edge<Point, Double>> edlist : graph.allEdges()) {
-//                for (Graph.Edge<Point, Double> ed : edlist) {
-//                    assert (ed.getName() >= 0.0) : "the distance of edge is negative";
-//                }
-//            }
-//        }
-//    }
+    private void checkRep(){
+        if(DEBUG) {
+            assert (buildingWithShortName != null) : "list of building is null";
+            for (CampusBuilding buil : buildingWithShortName.values()) {
+                assert (buil != null) : "building is null";
+            }
+            for (List<Graph.Edge<Point, Double>> edlist : graph.allEdges()) {
+                for (Graph.Edge<Point, Double> ed : edlist) {
+                    assert (ed.getName() >= 0.0) : "the distance of edge is negative";
+                }
+            }
+        }
+    }
     /**
      * @spec.effects store all buildings into building, and store all edges
      * on the campus map into the graph
@@ -76,6 +76,7 @@ public class CampusMap implements ModelAPI {
         for(CampusBuilding buil: buildings){
             buildingWithShortName.put(buil.getShortName(),buil);
         }
+        checkRep();
 
     }
 
