@@ -49,7 +49,7 @@ public class PathFinder<A,Number> {
      * @param starting path start from
      * @param destination path end with
      * @return shortest path from starting to destination
-     * @spec.requires starting != null && destination != null &&
+     * @spec.requires starting != null and destination != null and
      * starting exist and destination exist
      */
     public Path<Graph.Node<A>> findPath(A starting, A destination){
