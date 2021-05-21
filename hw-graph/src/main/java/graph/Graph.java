@@ -9,6 +9,9 @@ import java.util.*;
  * to B. Then B is the child node of A, and A is the parent node of B. A path refers to a sequence
  * of edges traveling from A to B. Assume that no 2 edges with the same parent and child nodes will
  * have the same edge label.
+ * A is the type that is stored in node of the map
+ * B is the type that is the label of edge
+ * A and B are undecided type
  */
 public class Graph<A,B> {
     public static final boolean DEBUG = false;
@@ -205,6 +208,7 @@ public class Graph<A,B> {
     /**
      * <b>Node</b> represent an <b>immutable</b> location. It takes a name of
      * location and store that location as Node object.
+     * A is the type of name of node, which is undecided
      */
     public static class Node<A>{
         // Rep invariant: name != null
@@ -268,6 +272,8 @@ public class Graph<A,B> {
      * to another location, with a name with it.
      * The location that the edge starts from is parent, and the location that the edge
      * end with is child.
+     * X is the type of name of node, Y is the type of label of edge
+     * X and Y are undecided types.
      */
     public static class Edge<X,Y> {
         //rep invariant: parent != null && child != null && label!= null

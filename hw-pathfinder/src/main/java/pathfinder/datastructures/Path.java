@@ -17,6 +17,7 @@ import java.util.*;
  * This represents an immutable path between two objects, particularly
  * Path#getStart() and Path#getEnd(). Also contains a cached
  * version of the total cost along this path, for efficient repeated access.
+ * A is the type of start node, which is undecided
  */
 public class Path<A> implements Iterable<Path<A>.Segment> {
 
