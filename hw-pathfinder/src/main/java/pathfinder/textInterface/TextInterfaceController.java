@@ -16,6 +16,7 @@ import pathfinder.ModelAPI;
 import pathfinder.datastructures.Path;
 import pathfinder.datastructures.Point;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -114,12 +115,13 @@ public class TextInterfaceController implements InputHandler {
 
     /**
      * Responds properly to the user requesting a route between buildings.
+     * User do not have to input capital letter of building.
      */
     private void doInputR() {
         view.promptBuildingInput("starting building");
-        String start = view.blockingInput();
+        String start = view.blockingInput().toUpperCase();
         view.promptBuildingInput("ending building");
-        String end = view.blockingInput();
+        String end = view.blockingInput().toUpperCase();
         if(!model.shortNameExists(start) || !model.shortNameExists(end)) {
             if(!model.shortNameExists(start)) {
                 view.showErrorUnknownBuilding(start);
