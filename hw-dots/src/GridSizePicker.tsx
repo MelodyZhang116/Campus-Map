@@ -16,6 +16,7 @@ import React, {Component} from 'react';
 interface GridSizePickerProps {
     value: string;                    // text to display in the text area
     onChange(newSize: number): void;  // called when a new size is picked
+    current:string;                   // the current string in the text box
 }
 
 class GridSizePicker extends Component<GridSizePickerProps> {

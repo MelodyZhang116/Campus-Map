@@ -31,8 +31,16 @@ class Grid extends Component<GridProps, GridState> {
     canvasReference: React.RefObject<HTMLCanvasElement>
 
     constructor(props: GridProps) {
+
         super(props);
+        if(props.height < 100 || props.width < 100){
+            throw new Error("The width and height have to be larger than 100");
+        }
+        if((props.width >=1000 || props.height >=1000) &&props.size >= 1000){
+            throw new Error("You cannot draw a 1000*1000 grid of 10^6 dots.")
+        }
         this.state = {
+
             backgroundImage: null  // An image object to render into the canvas.
         };
         this.canvasReference = React.createRef();
@@ -94,12 +102,17 @@ class Grid extends Component<GridProps, GridState> {
      */
     getCoordinates = (): [number, number][] => {
         // A hardcoded 4x4 grid. Probably not going to work when we change the grid size...
-        return [
-            [100, 100], [100, 200], [100, 300], [100, 400],
-            [200, 100], [200, 200], [200, 300], [200, 400],
-            [300, 100], [300, 200], [300, 300], [300, 400],
-            [400, 100], [400, 200], [400, 300], [400, 400]
-        ];
+        let result:[number,number][] = [];
+        let spaceWidth: number = this.props.width / (this.props.size+1);
+        let spaceHeight: number = this.props.height / (this.props.size+1);
+        for(let i = 1; i <= this.props.size; i++){
+            for(let j = 1; j <= this.props.size;j++){
+                result.push([spaceHeight*i,spaceWidth*j]);
+
+            }
+        }
+        return result;
+
     };
 
     drawCircle = (ctx: CanvasRenderingContext2D, coordinate: [number, number]) => {
@@ -112,11 +125,12 @@ class Grid extends Component<GridProps, GridState> {
         ctx.fill();
     };
 
+
     render() {
         return (
             <div id="grid">
                 <canvas ref={this.canvasReference} width={this.props.width} height={this.props.height}/>
-                <p>Current Grid Size: 4</p>
+                <p>Current Grid Size: {this.props.size}</p>
             </div>
         );
     }
