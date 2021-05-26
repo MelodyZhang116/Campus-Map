@@ -54,7 +54,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 <p id="app-title">Connect the Dots!</p>
                 <GridSizePicker value={this.state.textingSize} onChange={this.updateGridSize} />
                 <Grid size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList onChange={this.updateEdgeList}/>
+                <EdgeList text = {this.state.texting} onChange={this.updateEdgeList}/>
             </div>
 
         );

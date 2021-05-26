@@ -13,7 +13,7 @@ import React, {Component} from 'react';
 
 
 interface EdgeListProps {
-    //text:string;
+    text:string;
     onChange(edges: string): void;  // called when a new edge list is ready
                                  // once you decide how you want to communicate the edges to the App, you should
                                  // change the type of edges so it isn't `any`
