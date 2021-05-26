@@ -25,13 +25,6 @@ interface EdgeListProps {
  */
 class EdgeList extends Component<EdgeListProps> {
     onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // Every event handler with JS can optionally take a single parameter that
-        // is an "event" object - contains information about an event. For mouse clicks,
-        // it'll tell you thinks like what x/y coordinates the click was at. For text
-        // box updates, it'll tell you the new contents of the text box, like we're using
-        // below.
-        //
-        // TODO - Not currently doing any validation or error handling. Should probably add some...
 
         let lines = event.target.value;
         this.props.onChange(lines);

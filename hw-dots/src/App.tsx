@@ -19,6 +19,7 @@ import "./App.css";
 
 interface AppState {
     gridSize: number;  // size of the grid to display
+    textingSize:string;
     texting:string;
 }
 
@@ -28,25 +29,32 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         super(props);
         this.state = {
             gridSize: 4,
-            texting : "4",
+            textingSize : "4",
+            texting: "",
         };
     }
 
     updateGridSize = (newSize: number , text: string) => {
         this.setState({
             gridSize: newSize,
-            texting :text,
+            textingSize :text,
         });
     };
+
+    updateEdgeList = (text:string)=>{
+        this.setState({
+            texting :  text,
+        })
+    }
 
     render() {
         const canvas_size = 500;
         return (
             <div>
                 <p id="app-title">Connect the Dots!</p>
-                <GridSizePicker value={this.state.texting} onChange={this.updateGridSize} />
+                <GridSizePicker value={this.state.textingSize} onChange={this.updateGridSize} />
                 <Grid size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList onChange={(value) => {console.log("EdgeList onChange", value)}}/>
+                <EdgeList onChange={this.updateEdgeList}/>
             </div>
 
         );
