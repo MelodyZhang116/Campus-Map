@@ -15,8 +15,7 @@ import React, {Component} from 'react';
 
 interface GridSizePickerProps {
     value: string;                    // text to display in the text area
-    onChange(newSize: number): void;  // called when a new size is picked
-    current:string;                   // the current string in the text box
+    onChange(newSize: number, text: string): void;  // called when a new size is picked
 }
 
 class GridSizePicker extends Component<GridSizePickerProps> {
@@ -29,8 +28,23 @@ class GridSizePicker extends Component<GridSizePickerProps> {
         // below.
         //
         // TODO - Not currently doing any validation or error handling. Should probably add some...
-        const newSize: number = parseInt(event.target.value);
-        this.props.onChange(newSize); // Tell our parent component about the new size.
+
+        let newSize:number =0;
+        let text:string = "";
+        if(event.target.value==""){
+            newSize = 0;
+            text = "";
+        }else {
+            newSize = parseInt(event.target.value);
+            text = event.target.value;
+        }
+        if(newSize >100){
+            let str:string = event.target.value.substring(0,event.target.value.length-1);
+            newSize = parseInt(str);
+            text = str;
+            alert("The range should be 0-100");
+        }
+        this.props.onChange(newSize,text); // Tell our parent component about the new size.
     };
 
     render() {

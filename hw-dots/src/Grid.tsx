@@ -33,12 +33,7 @@ class Grid extends Component<GridProps, GridState> {
     constructor(props: GridProps) {
 
         super(props);
-        if(props.height < 100 || props.width < 100){
-            throw new Error("The width and height have to be larger than 100");
-        }
-        if((props.width >=1000 || props.height >=1000) &&props.size >= 1000){
-            throw new Error("You cannot draw a 1000*1000 grid of 10^6 dots.")
-        }
+
         this.state = {
 
             backgroundImage: null  // An image object to render into the canvas.
