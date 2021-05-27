@@ -26,14 +26,23 @@ interface EdgeListProps {
  * Also contains the buttons that the user will use to interact with the app.
  */
 class EdgeList extends Component<EdgeListProps> {
+
+    parsedText :string[][] ;
+    lines:string;
+    constructor(props:any) {
+        super(props);
+        this.parsedText = this.props.parsedText;
+        this.lines = this.props.text;
+    }
     onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 
-        let lines = event.target.value;
-        let parsedText = new Array();
-        parsedText = this.props.parsedText;
-        this.props.onChange(this.props.parsedText,lines);
-    };
+        this.lines = event.target.value;
+        this.props.onChange(this.parsedText,this.lines);
+    }
+    onClear=()=>{
+        this.parsedText = [];
 
+    }
     onDraw=() =>{
         const texting = this.props.text;
         var lines = texting.split("\n");
@@ -73,7 +82,6 @@ class EdgeList extends Component<EdgeListProps> {
                     (Math.max(startX,startY,endX,endY)+1)+"\n";
 
             }
-            let sublist = new Array(5);
 
 
         }
@@ -81,8 +89,9 @@ class EdgeList extends Component<EdgeListProps> {
             let title:string = "There was an error with some of your line input. \nFor reference, the correct form " +
                 "for each line is: x1,y1 x2,y2 color\n\n";
             alert(title+warning);
+        }else{
+            this.parsedText = parsedText ;
         }
-        parsedText = this.props.parsedText;
     }
     render() {
         return (
@@ -95,7 +104,7 @@ class EdgeList extends Component<EdgeListProps> {
                     value={this.props.text}
                 /> <br/>
                 <button onClick={this.onDraw}>Draw</button>
-                <button onClick={() => {console.log('Clear onClick was called');}}>Clear</button>
+                <button onClick={this.onClear}>Clear</button>
             </div>
         );
     }

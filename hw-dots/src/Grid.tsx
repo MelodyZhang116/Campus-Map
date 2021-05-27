@@ -133,15 +133,6 @@ class Grid extends Component<GridProps, GridState> {
         }
         ctx.beginPath();
         for(let i = 0 ; i < this.props.parsedText.length ; i ++){
-            if(this.props.parsedText[i].length!=this.props.size){
-                window.alert("There was an error with some of your line input. \nFor reference, the correct form "+
-                "for each line is: x1,y1 x2,y2 color\n\n")
-                if(this.props.parsedText[i].length<this.props.size){
-                    window.alert("Line"+(i+1)+": Missing a portion of the line, or missing a space.")
-                }else{
-                    window.alert("Line"+(i+1)+": Extra portion of the line, or an extra space.")
-                }
-            }
             this.drawOneLine(ctx,this.props.parsedText[i]);
         }
         ctx.stroke();
@@ -150,12 +141,13 @@ class Grid extends Component<GridProps, GridState> {
     }
     drawOneLine = (ctx: CanvasRenderingContext2D, line:string[]) =>{
         let start = line[0].split(",");
-        let startX = parseFloat(start[0]);
-        let startY = parseFloat(start[1]);
+        let startX = parseInt(start[0]) *this.props.width / (this.props.size+1);
+        let startY = parseInt(start[1])*this.props.height / (this.props.size+1);
         let end = line[1].split(",");
-        let endX = parseFloat(end[0]);
-        let endY = parseFloat(end[1]);
+        let endX = parseInt(end[0])*this.props.width / (this.props.size+1);
+        let endY = parseInt(end[1])*this.props.height / (this.props.size+1);
         let color = line[2];
+        ctx.strokeStyle = color;
         ctx.moveTo(startX,startY);
         ctx.lineTo(endX,endY);
     }
