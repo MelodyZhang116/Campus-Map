@@ -40,8 +40,8 @@ class EdgeList extends Component<EdgeListProps> {
         let newState={
             lines : event.target.value,
         };
-        this.props.onChange(this.state.parsedText,this.state.lines);
         this.setState(newState);
+        this.props.onChange(this.state.parsedText,this.state.lines);
     }
     onClear=()=>{
         let newState ={
