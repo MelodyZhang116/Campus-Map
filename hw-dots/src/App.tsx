@@ -21,6 +21,7 @@ interface AppState {
     gridSize: number;  // size of the grid to display
     textingSize:string;
     texting:string;
+    parsedTexting:string[][];
 }
 
 class App extends Component<{}, AppState> { // <- {} means no props.
@@ -31,6 +32,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
             gridSize: 4,
             textingSize : "4",
             texting: "",
+            parsedTexting:[],
         };
     }
 
@@ -41,9 +43,10 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         });
     };
 
-    updateEdgeList = (text:string)=>{
+    updateEdgeList = (parsedText: string[][],text:string)=>{
         this.setState({
             texting :  text,
+            parsedTexting: parsedText,
         })
     }
 
@@ -53,8 +56,8 @@ class App extends Component<{}, AppState> { // <- {} means no props.
             <div>
                 <p id="app-title">Connect the Dots!</p>
                 <GridSizePicker value={this.state.textingSize} onChange={this.updateGridSize} />
-                <Grid size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList text = {this.state.texting} onChange={this.updateEdgeList}/>
+                <Grid parsedText={this.state.parsedTexting} size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
+                <EdgeList parsedText={this.state.parsedTexting} size={this.state.gridSize} text = {this.state.texting} onChange={this.updateEdgeList}/>
             </div>
 
         );

@@ -15,6 +15,7 @@ interface GridProps {
     size: number;    // size of the grid to display
     width: number;   // width of the canvas on which to draw
     height: number;  // height of the canvas on which to draw
+    parsedText: string[][];    // the text of the texting box
 }
 
 interface GridState {
@@ -41,15 +42,18 @@ class Grid extends Component<GridProps, GridState> {
         this.canvasReference = React.createRef();
     }
 
+
     componentDidMount() {
         // Since we're saving the image in the state and re-using it any time we
         // redraw the canvas, we only need to load it once, when our component first mounts.
         this.fetchAndSaveImage();
         this.redraw();
+        this.drawLine();
     }
 
     componentDidUpdate() {
         this.redraw()
+        this.drawLine();
     }
 
     fetchAndSaveImage() {
@@ -119,6 +123,42 @@ class Grid extends Component<GridProps, GridState> {
         ctx.arc(coordinate[0], coordinate[1], radius, 0, 2 * Math.PI);
         ctx.fill();
     };
+    drawLine = () =>{
+        if (this.canvasReference.current === null) {
+            throw new Error("Unable to access canvas.");
+        }
+        const ctx = this.canvasReference.current.getContext('2d');
+        if (ctx === null) {
+            throw new Error("Unable to create canvas drawing context.");
+        }
+        ctx.beginPath();
+        for(let i = 0 ; i < this.props.parsedText.length ; i ++){
+            if(this.props.parsedText[i].length!=this.props.size){
+                window.alert("There was an error with some of your line input. \nFor reference, the correct form "+
+                "for each line is: x1,y1 x2,y2 color\n\n")
+                if(this.props.parsedText[i].length<this.props.size){
+                    window.alert("Line"+(i+1)+": Missing a portion of the line, or missing a space.")
+                }else{
+                    window.alert("Line"+(i+1)+": Extra portion of the line, or an extra space.")
+                }
+            }
+            this.drawOneLine(ctx,this.props.parsedText[i]);
+        }
+        ctx.stroke();
+        //TODO:color
+        //TODO:when and how to call this method
+    }
+    drawOneLine = (ctx: CanvasRenderingContext2D, line:string[]) =>{
+        let start = line[0].split(",");
+        let startX = parseFloat(start[0]);
+        let startY = parseFloat(start[1]);
+        let end = line[1].split(",");
+        let endX = parseFloat(end[0]);
+        let endY = parseFloat(end[1]);
+        let color = line[2];
+        ctx.moveTo(startX,startY);
+        ctx.lineTo(endX,endY);
+    }
 
 
     render() {
