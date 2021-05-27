@@ -38,17 +38,17 @@ class EdgeList extends Component<EdgeListProps> {
     }
     onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let newState={
-            parsedText :this.props.parsedText,
             lines : event.target.value,
+
         };
         this.props.onChange(this.state.parsedText,this.state.lines);
         this.setState(newState);
     }
     onClear=()=>{
         let newState ={
-            lines
+            parsedText: [],
         }
-        this.parsedText = [];
+        this.setState(newState);
 
     }
     onDraw=() =>{
@@ -98,7 +98,10 @@ class EdgeList extends Component<EdgeListProps> {
                 "for each line is: x1,y1 x2,y2 color\n\n";
             alert(title+warning);
         }else{
-            this.parsedText = parsedText ;
+            let newState ={
+                parsedText: parsedText,
+            }
+            this.setState(newState);
         }
     }
     render() {
