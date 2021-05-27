@@ -27,16 +27,19 @@ interface EdgeListProps {
  */
 class EdgeList extends Component<EdgeListProps> {
 
-    parsedText :string[][] ;
-    lines:string;
+
     constructor(props:any) {
         super(props);
-        this.parsedText = this.props.parsedText;
-        this.lines = this.props.text;
+        this.state = {
+            parsedText : this.props.parsedText,
+            lines: this.props.text,
+        };
+
     }
     onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-
-        this.lines = event.target.value;
+        this.setState({
+            lines = event.target.value;
+        })
         this.props.onChange(this.parsedText,this.lines);
     }
     onClear=()=>{
