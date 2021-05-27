@@ -38,12 +38,16 @@ class EdgeList extends Component<EdgeListProps> {
     }
     onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         let newState={
-            lines : event.target.value
+            parsedText :this.props.parsedText,
+            lines : event.target.value,
         };
         this.props.onChange(this.state.parsedText,this.state.lines);
         this.setState(newState);
     }
     onClear=()=>{
+        let newState ={
+            lines
+        }
         this.parsedText = [];
 
     }
