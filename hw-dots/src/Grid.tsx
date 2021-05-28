@@ -131,13 +131,12 @@ class Grid extends Component<GridProps, GridState> {
         if (ctx === null) {
             throw new Error("Unable to create canvas drawing context.");
         }
-        ctx.beginPath();
+
         for(let i = 0 ; i < this.props.parsedText.length ; i ++){
             this.drawOneLine(ctx,this.props.parsedText[i]);
         }
-        ctx.stroke();
-        //TODO:color
-        //TODO:when and how to call this method
+
+
     }
     drawOneLine = (ctx: CanvasRenderingContext2D, line:string[]) =>{
         let start = line[0].split(",");
@@ -147,9 +146,11 @@ class Grid extends Component<GridProps, GridState> {
         let endX = parseInt(end[0])*this.props.width / (this.props.size+1);
         let endY = parseInt(end[1])*this.props.height / (this.props.size+1);
         let color = line[2];
+        ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.moveTo(startX,startY);
         ctx.lineTo(endX,endY);
+        ctx.stroke();
     }
 
 

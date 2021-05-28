@@ -16,45 +16,32 @@ interface EdgeListProps {
     text:string;
     size:number;
     parsedText:string[][];
-    onChange(parsedText:string[][],edges: string): void;  // called when a new edge list is ready
+    onChange(edges: string): void;  // called when a new edge list is ready
                                  // once you decide how you want to communicate the edges to the App, you should
                                  // change the type of edges so it isn't `any`
+    onDraw(parsedText:string[][],edges:string):void;
 }
-interface EdgeListState{
-    parsedText: string[][];
-    lines: string;
-}
+
 
 /**
  * A text field that allows the user to enter the list of edges.
  * Also contains the buttons that the user will use to interact with the app.
  */
-class EdgeList extends Component<EdgeListProps,EdgeListState> {
+class EdgeList extends Component<EdgeListProps> {
 
 
-    constructor(props:any) {
-        super(props);
-        this.state = {
-            parsedText : this.props.parsedText,
-            lines: this.props.text,
-        };
 
-    }
     onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let newState={
-            lines : event.target.value,
-        };
-        this.setState(newState);
-        this.props.onChange(this.state.parsedText,this.state.lines);
+
+        let lines = event.target.value;
+        this.props.onChange(lines);
     }
     onClear=()=>{
-        let newState ={
-            parsedText: [],
-        }
-        this.setState(newState);
+
+        this.props.onDraw([],"");
 
     }
-    onDraw=() =>{
+    onTextDraw=() =>{
         const texting = this.props.text;
         var lines = texting.split(/[\n]+/);
         var parsedText1 = new Array(lines.length);
@@ -101,10 +88,8 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
                 "for each line is: x1,y1 x2,y2 color\n\n";
             alert(title+warning);
         }else{
-            let newState ={
-                parsedText: parsedText,
-            }
-            this.setState(newState);
+
+            this.props.onDraw(parsedText,this.props.text);
         }
     }
     render() {
@@ -117,7 +102,7 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
                     onChange={this.onTextChange}
                     value={this.props.text}
                 /> <br/>
-                <button onClick={this.onDraw}>Draw</button>
+                <button onClick={this.onTextDraw}>Draw</button>
                 <button onClick={this.onClear}>Clear</button>
             </div>
         );

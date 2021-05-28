@@ -43,10 +43,15 @@ class App extends Component<{}, AppState> { // <- {} means no props.
         });
     };
 
-    updateEdgeList = (parsedText: string[][],text:string)=>{
+    updateEdgeList = (text:string)=>{
         this.setState({
             texting :  text,
-            parsedTexting: parsedText,
+        })
+    }
+    updateDraw = (parsedText: string[][],text:string)=>{
+        this.setState({
+            parsedTexting:parsedText,
+            texting:text,
         })
     }
 
@@ -57,7 +62,7 @@ class App extends Component<{}, AppState> { // <- {} means no props.
                 <p id="app-title">Connect the Dots!</p>
                 <GridSizePicker value={this.state.textingSize} onChange={this.updateGridSize} />
                 <Grid parsedText={this.state.parsedTexting} size={this.state.gridSize} width={canvas_size} height={canvas_size}/>
-                <EdgeList parsedText={this.state.parsedTexting} size={this.state.gridSize} text = {this.state.texting} onChange={this.updateEdgeList}/>
+                <EdgeList parsedText={this.state.parsedTexting} size={this.state.gridSize} text = {this.state.texting} onChange={this.updateEdgeList} onDraw={this.updateDraw}/>
             </div>
 
         );
