@@ -20,12 +20,16 @@ interface EdgeListProps {
                                  // once you decide how you want to communicate the edges to the App, you should
                                  // change the type of edges so it isn't `any`
 }
+interface EdgeListState{
+    parsedText: string[][];
+    lines: string;
+}
 
 /**
  * A text field that allows the user to enter the list of edges.
  * Also contains the buttons that the user will use to interact with the app.
  */
-class EdgeList extends Component<EdgeListProps> {
+class EdgeList extends Component<EdgeListProps,EdgeListState> {
 
 
     constructor(props:any) {
