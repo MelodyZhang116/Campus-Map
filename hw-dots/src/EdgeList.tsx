@@ -56,7 +56,7 @@ class EdgeList extends Component<EdgeListProps,EdgeListState> {
     }
     onDraw=() =>{
         const texting = this.props.text;
-        var lines = texting.split("\n");
+        var lines = texting.split(/[\n]+/);
         var parsedText1 = new Array(lines.length);
         for(let i = 0 ; i < lines.length;i++){
             parsedText1[i] = lines[i].split(" ");
