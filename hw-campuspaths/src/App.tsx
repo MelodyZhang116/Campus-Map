@@ -16,6 +16,7 @@ import LocationPicker from "./LocationPicker";
 interface AppState{
     text:string;
     parsedText:string[];
+    path;
 }
 class App extends Component<{}, AppState> {
     constructor(props:any) {
@@ -23,6 +24,7 @@ class App extends Component<{}, AppState> {
         this.state = {
             text : "",
             parsedText : [],
+            path: null,
         }
     }
     updateLocation = (parsedText:string[])=>{
@@ -35,11 +37,29 @@ class App extends Component<{}, AppState> {
             text:text,
         })
     }
+    findPath= async () => {
+        try {
+            let response = await fetch("http://localhost:4567/path?start="+this.state.parsedText[0]
+            +"&end="+this.state.parsedText[1]);
+            if (!response.ok) {
+                alert("The status is wrong! Expected: 200, Was: " + response.status);
+                return;
+            }
+
+            let object = await response.json()
+            this.setState({
+                requestResult: "Check the console for the printed out array elements."
+            })
+        } catch (e) {
+            alert("There was an error contacting the server.");
+            console.log(e);
+        }
+    };
 
     render() {
         return (
             <div>
-                <MapView />
+                <MapView/>
                 <LocationPicker text={this.state.text} onDraw={this.updateLocation} onChange={this.updateTexting}/>
             </div>
         );
