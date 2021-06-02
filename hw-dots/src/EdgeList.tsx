@@ -101,7 +101,7 @@ class EdgeList extends Component<EdgeListProps> {
                     cols={30}
                     onChange={this.onTextChange}
                     value={this.props.text}
-                /> <br/>
+                /><br/>
                 <button onClick={this.onTextDraw}>Draw</button>
                 <button onClick={this.onClear}>Clear</button>
             </div>

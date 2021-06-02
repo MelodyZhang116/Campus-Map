@@ -29,15 +29,14 @@ public class SparkServer {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
         CampusMap map = new CampusMap();
-
-        Spark.get("/shortestPath", new Route() {
+        //"/range?start=NUMBER&end=NUMBER"
+        Spark.get("/path", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
-                String startShortName = request.queryParams("startShortName");
-                String endShortName = request.queryParams("endShortName");
+                String startShortName = request.queryParams("start");
+                String endShortName = request.queryParams("end");
                 if(startShortName == null || endShortName == null) {
-                    // You can also have a message in "halt" that is displayed in the page.
-                    Spark.halt(400, "must have start and end");
+                    Spark.halt(400, "must have start and end short names");
                 }
                 if(!map.shortNameExists(startShortName) || !map.shortNameExists(endShortName)){
                     Spark.halt(400, "start and end must be valid short name on campus");
@@ -49,8 +48,16 @@ public class SparkServer {
                 return jsonResponse;
             }
         });
+        Spark.get("/buildings", new Route() {
+            @Override
+            public Object handle(Request request, Response response) throws Exception {
+                Gson gson = new Gson();
+                String jsonResponse = gson.toJson(map.buildingNames());
+                return jsonResponse;
+            }
+        });
 
-        // TODO: Create all the Spark Java routes you need here.
+
     }
 
 }

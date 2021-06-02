@@ -10,12 +10,38 @@
  */
 
 import React, {Component} from 'react';
+import MapView from "./MapView";
+import LocationPicker from "./LocationPicker";
 
-class App extends Component<{}, {}> {
+interface AppState{
+    text:string;
+    parsedText:string[];
+}
+class App extends Component<{}, AppState> {
+    constructor(props:any) {
+        super(props);
+        this.state = {
+            text : "",
+            parsedText : [],
+        }
+    }
+    updateLocation = (parsedText:string[])=>{
+        this.setState({
+            parsedText:parsedText,
+        })
+    }
+    updateTexting = (text:string)=>{
+        this.setState({
+            text:text,
+        })
+    }
 
     render() {
         return (
-            <p>Here's the beginning of your AMAZING CampusPaths GUI!</p>
+            <div>
+                <MapView/>
+                <LocationPicker text={this.state.text} onDraw={this.updateLocation} onChange={this.updateTexting}/>
+            </div>
         );
     }
 
