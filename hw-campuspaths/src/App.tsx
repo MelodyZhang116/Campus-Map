@@ -39,7 +39,7 @@ class App extends Component<{}, AppState> {
     render() {
         return (
             <div>
-                <MapView/>
+                <MapView />
                 <LocationPicker text={this.state.text} onDraw={this.updateLocation} onChange={this.updateTexting}/>
             </div>
         );

@@ -27,7 +27,7 @@ class LocationPicker extends Component<LocationPickerProps> {
             warning+="Extra portion of the line, or an extra comma.\n"
         }
         if(warning.length!=0){
-            alert("There is an error with your likne input. \nFor reference, the correct form "+
+            alert("There is an error with your line input. \nFor reference, the correct form "+
             "is: start,end (both in short names and capital letters)\n\n")
         }
         this.props.onDraw(parsedLocation);
