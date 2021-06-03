@@ -58,15 +58,7 @@ public class SparkServer {
                 return gson.toJson(pathString);
             }
         });
-//        let result:[number,number][] = [];
-//        let spaceWidth: number = this.props.width / (this.props.size+1);
-//        let spaceHeight: number = this.props.height / (this.props.size+1);
-//        for(let i = 1; i <= this.props.size; i++){
-//            for(let j = 1; j <= this.props.size;j++){
-//                result.push([spaceHeight*i,spaceWidth*j]);
-//
-//            }
-//        }
+
         Spark.get("/buildings", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
