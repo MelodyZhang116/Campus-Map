@@ -98,6 +98,8 @@ public class Path<A> implements Iterable<Path<A>.Segment> {
         return cost;
     }
 
+    public List<Segment> getSegment(){return path;}
+
     /**
      * @return The object at the beginning of this path.
      */

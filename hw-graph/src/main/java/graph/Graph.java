@@ -264,6 +264,11 @@ public class Graph<A,B> {
             return name.hashCode();
         }
 
+        @Override
+        public String toString(){
+            return name.toString();
+        }
+
 
     }
 

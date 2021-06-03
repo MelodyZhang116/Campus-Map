@@ -16,6 +16,7 @@ class LocationPicker extends Component<LocationPickerProps> {
     };
     onClear=()=>{
         this.props.onDraw([]);
+        this.props.onChange("");
     }
     onTextDraw=()=>{
         const texting = this.props.text;

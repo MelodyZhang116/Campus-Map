@@ -18,6 +18,7 @@ import spark.Response;
 import spark.Route;
 import spark.Spark;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import campuspaths.*;
@@ -29,7 +30,6 @@ public class SparkServer {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
         CampusMap map = new CampusMap();
-        //"/range?start=NUMBER&end=NUMBER"
         Spark.get("/path", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
@@ -42,18 +42,36 @@ public class SparkServer {
                     Spark.halt(400, "start and end must be valid short name on campus");
                 }
                 Path<Graph.Node<Point>> path = map.findShortestPath(startShortName,endShortName);
-
+                ArrayList<ArrayList<Number>> pathString = new ArrayList<>();
+                ArrayList<Number> coordinate1 = new ArrayList<Number>();
+                coordinate1.add(path.getStart().name.getX());
+                coordinate1.add(path.getStart().name.getY());
+                pathString.add(coordinate1);
+                List<Path<Graph.Node<Point>>.Segment> segment = path.getSegment();
+                for(Path<Graph.Node<Point>>.Segment seg:segment){
+                    ArrayList<Number> coordinate2 = new ArrayList<Number>();
+                    coordinate2.add(seg.getEnd().getName().getX());
+                    coordinate2.add(seg.getEnd().getName().getY());
+                    pathString.add(coordinate2);
+                }
                 Gson gson = new Gson();
-                String jsonResponse = gson.toJson(path);
-                return jsonResponse;
+                return gson.toJson(pathString);
             }
         });
+//        let result:[number,number][] = [];
+//        let spaceWidth: number = this.props.width / (this.props.size+1);
+//        let spaceHeight: number = this.props.height / (this.props.size+1);
+//        for(let i = 1; i <= this.props.size; i++){
+//            for(let j = 1; j <= this.props.size;j++){
+//                result.push([spaceHeight*i,spaceWidth*j]);
+//
+//            }
+//        }
         Spark.get("/buildings", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {
                 Gson gson = new Gson();
-                String jsonResponse = gson.toJson(map.buildingNames());
-                return jsonResponse;
+                return gson.toJson(map.buildingNames());
             }
         });
 

@@ -12,11 +12,15 @@
 import React, {Component} from 'react';
 import "./MapView.css";
 
+interface MapViewProps{
+    path: [number,number][];
+}
 interface MapViewState {
     backgroundImage: HTMLImageElement | null;
 }
 
-class MapView extends Component<{}, MapViewState> {
+
+class MapView extends Component<MapViewProps, MapViewState> {
 
     // NOTE:
     // This component is a suggestion for you to use, if you would like to.
@@ -27,7 +31,7 @@ class MapView extends Component<{}, MapViewState> {
 
     canvas: React.RefObject<HTMLCanvasElement>;
 
-    constructor(props: {}) {
+    constructor(props: MapViewProps) {
         super(props);
         this.state = {
             backgroundImage: null
@@ -71,6 +75,16 @@ class MapView extends Component<{}, MapViewState> {
             canvas.height = this.state.backgroundImage.height;
             ctx.drawImage(this.state.backgroundImage, 0, 0);
         }
+
+        for(let i = 0 ; i < this.props.path.length-1;i++){
+            this.drawOneLine(ctx,this.props.path[i],this.props.path[i+1]);
+        }
+    }
+    drawOneLine = (ctx: CanvasRenderingContext2D,start:[number,number],end:[number,number])=>{
+        ctx.beginPath();
+        ctx.moveTo(start[0],start[1]);
+        ctx.lineTo(end[0],end[1]);
+        ctx.stroke();
     }
 
     render() {
