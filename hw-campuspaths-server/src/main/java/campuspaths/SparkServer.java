@@ -30,6 +30,7 @@ public class SparkServer {
         CORSFilter corsFilter = new CORSFilter();
         corsFilter.apply();
         CampusMap map = new CampusMap();
+
         Spark.get("/path", new Route() {
             @Override
             public Object handle(Request request, Response response) throws Exception {

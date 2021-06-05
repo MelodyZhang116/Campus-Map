@@ -14,36 +14,60 @@ import MapView from "./MapView";
 import LocationPicker from "./LocationPicker";
 
 interface AppState{
-    text:string;
-    parsedText:string[];
-    path:[number,number][];
+    start:string;  //a starting location
+    end:string;    //an ending location
+    path:[number,number][]; //the coordinates of points that are contained in the
+                            // shortest path from start to end
+    buildings:Record<string, string> //buildings<shortName, longName>
+
 }
 class App extends Component<{}, AppState> {
     constructor(props:any) {
         super(props);
         this.state = {
-            text : "",
-            parsedText : [],
+            start:"",
+            end:"",
             path: [],
+            buildings:{},
         }
+        this.getBuildings();
     }
-    updateLocation = (parsedText:string[])=>{
+
+    updateStart = (start:string)=>{
+        const buildings = this.state.buildings;
         this.setState({
-            parsedText:parsedText,
+            start:Object.keys(buildings).find(short =>buildings[short]===start)!
         })
-        this.findPath();
     }
-    updateTexting = (text:string)=>{
+    updateEnd =(end:string)=>{
+        const buildings = this.state.buildings;
         this.setState({
-            text:text,
+            end:Object.keys(buildings).find(short =>buildings[short]===end)!
         })
+    }
+    getBuildings = async() =>{
+        try{
+            let response = await fetch("http://localhost:4567/buildings");
+            if(!response.ok){
+                alert("The status is wrong! Expected: 200, Was: " + response.status);
+                return;
+            }
+            let object = (await response.json())as Record<string,string>;
+            this.setState({
+                buildings:object
+            })
+
+        }catch(e){
+            alert("There was an error contacting the server.");
+            console.log(e);
+        }
     }
     findPath= async () => {
         try {
-            let response = await fetch("http://localhost:4567/path?start="+this.state.parsedText[0]
-            +"&end="+this.state.parsedText[1]);
-            console.log("http://localhost:4567/path?start="+this.state.parsedText[0]
-                +"&end="+this.state.parsedText[1]);
+
+            let response = await fetch("http://localhost:4567/path?start="+this.state.start
+            +"&end="+this.state.end);
+
             if (!response.ok) {
                 alert("The status is wrong! Expected: 200, Was: " + response.status);
                 return;
@@ -58,12 +82,21 @@ class App extends Component<{}, AppState> {
             console.log(e);
         }
     };
+    clear=()=>{
+        this.setState({
+            path:[],
+            start:"",
+            end:"",
+        })
+    }
 
     render() {
         return (
             <div>
+                <LocationPicker buildings={this.state.buildings} onStart={this.updateStart} onEnd={this.updateEnd}/>
+                <button onClick={this.findPath}>Draw the path</button>
+                <button onClick={this.clear}>Clear</button>
                 <MapView path={this.state.path}/>
-                <LocationPicker text={this.state.text} onDraw={this.updateLocation} onChange={this.updateTexting}/>
             </div>
         );
     }

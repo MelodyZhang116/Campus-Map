@@ -22,12 +22,6 @@ interface MapViewState {
 
 class MapView extends Component<MapViewProps, MapViewState> {
 
-    // NOTE:
-    // This component is a suggestion for you to use, if you would like to.
-    // It has some skeleton code that helps set up some of the more difficult parts
-    // of getting <canvas> elements to display nicely with large images.
-    //
-    // If you don't want to use this component, you're free to delete it.
 
     canvas: React.RefObject<HTMLCanvasElement>;
 
@@ -62,6 +56,9 @@ class MapView extends Component<MapViewProps, MapViewState> {
         background.src = "./campus_map.jpg";
     }
 
+    /**
+     * draw the background image and the shortest path from start to end
+     */
     drawBackgroundImage() {
         let canvas = this.canvas.current;
         if (canvas === null) throw Error("Unable to draw, no canvas ref.");
@@ -77,9 +74,18 @@ class MapView extends Component<MapViewProps, MapViewState> {
         }
 
         for(let i = 0 ; i < this.props.path.length-1;i++){
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth= 13;
             this.drawOneLine(ctx,this.props.path[i],this.props.path[i+1]);
         }
     }
+
+    /**
+     * draw one line from starting coordinate to ending coordinate
+     * @param ctx
+     * @param start coordinate
+     * @param end coordinate
+     */
     drawOneLine = (ctx: CanvasRenderingContext2D,start:[number,number],end:[number,number])=>{
         ctx.beginPath();
         ctx.moveTo(start[0],start[1]);

@@ -2,50 +2,42 @@
 import React, {Component} from 'react';
 
 interface LocationPickerProps {
-    text:string;
-    onDraw(parsedLocation:string[]):void;
-    onChange(location:string): void;  // called when a new location is picked
+    buildings:Record<string,string>;
+    onStart(start:string):void;
+    onEnd(end:string):void;
 }
 
 class LocationPicker extends Component<LocationPickerProps> {
-
-    onTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-
-
-        this.props.onChange(event.target.value);
-    };
-    onClear=()=>{
-        this.props.onDraw([]);
-        this.props.onChange("");
+    /**
+     * pass the data about starting location to the App through this method
+     * @param event
+     */
+    onStartChange = (event:React.ChangeEvent<HTMLSelectElement>) =>{
+        this.props.onStart(event.target.value);
     }
-    onTextDraw=()=>{
-        const texting = this.props.text;
-        let parsedLocation = texting.split(",");
-        let warning:string="";
-        if(parsedLocation.length<2){
-            warning+="Missing a portion of the line, or missing a comma.\n"
-        }else if(parsedLocation.length>2){
-            warning+="Extra portion of the line, or an extra comma.\n"
-        }
-        if(warning.length!=0){
-            alert("There is an error with your line input. \nFor reference, the correct form "+
-                "is: start,end (both in short names and capital letters)\n\n")
-        }
-        this.props.onDraw(parsedLocation);
+
+    /**
+     * pass the data about ending location to the App through this method
+     * @param event
+     */
+    onEndChange = (event:React.ChangeEvent<HTMLSelectElement>)=>{
+        this.props.onEnd(event.target.value);
     }
     render() {
+        let buildingsLongName = Object.values(this.props.buildings);
         return (
-            <div id="starting-location-picker">
-
-                Path start from:<br/>
-                <textarea
-                    rows={5}
-                    cols={30}
-                    value={this.props.text}
-                    onChange={this.onTextChange}
-                /><br/>
-                <button onClick={this.onTextDraw}>Draw</button>
-                <button onClick={this.onClear}>Clear</button>
+            <div>
+                <p> This map shows the shortest path from a starting location to an ending location</p>
+                <p> Select a path From</p>
+                <select onChange={this.onStartChange}>
+                    <option>Select a location to start</option>
+                    {buildingsLongName.map(building =><option value={building}>{building}</option>)}
+                </select>
+                <p>To</p>
+                <select onChange={this.onEndChange}>
+                    <option>Select a location to end</option>
+                    {buildingsLongName.map(building =><option value={building}>{building}</option>)}
+                </select>
 
             </div>
         );
