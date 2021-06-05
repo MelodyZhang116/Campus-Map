@@ -42,6 +42,8 @@ class App extends Component<{}, AppState> {
         try {
             let response = await fetch("http://localhost:4567/path?start="+this.state.parsedText[0]
             +"&end="+this.state.parsedText[1]);
+            console.log("http://localhost:4567/path?start="+this.state.parsedText[0]
+                +"&end="+this.state.parsedText[1]);
             if (!response.ok) {
                 alert("The status is wrong! Expected: 200, Was: " + response.status);
                 return;
