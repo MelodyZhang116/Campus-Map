@@ -87,7 +87,9 @@ class App extends Component<{}, AppState> {
             path:[],
             start:"",
             end:"",
+            buildings:{},
         })
+        this.getBuildings();
     }
 
     render() {
